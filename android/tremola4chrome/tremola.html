@@ -97,6 +97,25 @@
     </div>
   </div>
 
+  <!--not correct, here need to be modified-->
+  <div id="lst:game_lobby" class="w100" style="overflow: hidden; display: none;"></div> 
+  <div id="game_lobby-level-overlay" class="qr-overlay">
+    <div style="display:flex; justify-content: center;align-items: center; flex-direction: column; gap: 20px">
+      <div>
+        <button class="levelOne_btn" style="background-image: url('img/checked.svg');" onclick="btn_create_levelOne_board_accept()">
+          Level One
+        </button>
+        <button class="levelTwo_btn" style="background-image: url('img/checked.svg');" onclick="btn_create_levelTwo_board_accept()">
+          Level Two
+        </button>
+        <button class="levelThree_btn" style="background-image: url('img/checked.svg');" onclick="btn_create_levelThree_board_accept()">
+          Level Three
+        </button>
+      </div>
+    </div>
+  </div>
+
+
   <div id="plus">
     <button class=float_button onclick="plus_button();">+</button>
   </div>
@@ -534,9 +553,10 @@
 <div id='div:footer' class=neutral style="height: 56px; align-content: center; border: 3px inset #ebf4fa /*var(--light)*/; border-radius: 2px; margin: 3px; width: calc(100% - 12px);">
 
   <table width=100% cellpadding="2pt"><tr>
-    <td width=33%><button id='btn:chats'    class="w100 flat active buttontext" onclick="btnBridge(this);" style="background-image: url('img/chat.svg');">&nbsp;<!-- font size=+3>&#x1F4E8;</font><br><font size=small>Chats</font --></button>
-    <td width=33%><button id='btn:kanban'   class="w100 flat passive buttontext" onclick="btnBridge(this);" style="background-image: url('img/kanban.svg');">&nbsp;<!-- font size=+3>&#x1F5E3;</font><br><font size=small>Board</font --></button>
-    <td width=33%><button id='btn:contacts' class="w100 flat passive buttontext" onclick="btnBridge(this);" style="background-image: url('img/contacts.svg');">&nbsp;<!-- font size=+3>&#x1F465;</font><br><font size=small>Contacts</font --></button>
+    <td width=25%><button id='btn:chats'    class="w100 flat active buttontext" onclick="btnBridge(this);" style="background-image: url('img/chat.svg');">&nbsp;<!-- font size=+3>&#x1F4E8;</font><br><font size=small>Chats</font --></button>
+    <td width=25%><button id='btn:kanban'   class="w100 flat passive buttontext" onclick="btnBridge(this);" style="background-image: url('img/kanban.svg');">&nbsp;<!-- font size=+3>&#x1F5E3;</font><br><font size=small>Board</font --></button>
+    <td width=25%><button id='btn:contacts' class="w100 flat passive buttontext" onclick="btnBridge(this);" style="background-image: url('img/contacts.svg');">&nbsp;<!-- font size=+3>&#x1F465;</font><br><font size=small>Contacts</font --></button>
+    <td width=25%><button id='btn:game_lobby' class="w100 flat passive buttontext" onclick="btnBridge(this);" style="background-image: url('img/snake.svg');">&nbsp;<!-- font size=+3>&#x1F465;</font><br><font size=small>snakeGame</font --></button>
   </table>
 
 </div>

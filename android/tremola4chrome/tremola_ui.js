@@ -8,7 +8,7 @@ var display_or_not = [
     'div:qr', 'div:back',
     'core', 'lst:chats', 'div:posts', 'lst:contacts', 'lst:members', 'the:connex',
     'lst:kanban', 'div:footer', 'div:textarea', 'div:confirm-members', 'plus',
-    'div:settings', 'div:board'
+    'div:settings', 'div:board', 'lst:game_lobby'
 ];
 
 var prev_scenario = 'chats';

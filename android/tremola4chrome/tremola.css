@@ -180,6 +180,84 @@ textarea {
   box-shadow: 0 0 30px rgba(0,0,0,0.7);
 }
 
+#lst\:game_lobby {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh; /* Full height of the viewport */
+  gap: 20px; /* Space between buttons */
+}
+
+.levelOne_button{
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color:#fff;
+  background-color: rgb(16, 185, 214);
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+.levelOne_button:hover{
+background-color: #1795bb;
+}
+.levelOne_button:active{
+  background-color: #1795bb;
+  box-shadow: 0 5px #666;
+  transform:translateY(4px);
+}
+
+.levelTwo_button{
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color:#fff;
+  background-color: rgb(35, 90, 240);
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+.levelTwo_button:hover{
+background-color: #1761bb;
+}
+.levelTwo_button:active{
+  background-color: #1761bb;
+  box-shadow: 0 5px #666;
+  transform:translateY(4px);
+}
+
+.levelThree_button{
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color:#fff;
+  background-color: rgb(214, 16, 75);
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+.levelThree_button:hover{
+background-color: #bb176c;
+}
+.levelThree_button:active{
+  background-color: #bb176c;
+  box-shadow: 0 5px #666;
+  transform:translateY(4px);
+}
+
 .chat_item_button {
   border: none;
   text-align: left;

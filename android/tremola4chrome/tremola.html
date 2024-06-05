@@ -97,23 +97,11 @@
     </div>
   </div>
 
-  <!--not correct, here need to be modified-->
-  <div id="lst:game_lobby" class="w100" style="overflow: hidden; display: none;"></div> 
-  <div id="game_lobby-level-overlay" class="qr-overlay">
-    <div style="display:flex; justify-content: center;align-items: center; flex-direction: column; gap: 20px">
-      <div>
-        <button class="levelOne_btn" style="background-image: url('img/checked.svg');" onclick="btn_create_levelOne_board_accept()">
-          Level One
-        </button>
-        <button class="levelTwo_btn" style="background-image: url('img/checked.svg');" onclick="btn_create_levelTwo_board_accept()">
-          Level Two
-        </button>
-        <button class="levelThree_btn" style="background-image: url('img/checked.svg');" onclick="btn_create_levelThree_board_accept()">
-          Level Three
-        </button>
-      </div>
-    </div>
-  </div>
+  <div id="lst:game_lobby">
+    <button class=levelOne_button onclick="create_levelOne_gameBoard();">Level One (easy)</button>
+    <button class=levelTwo_button onclick="create_levelTwo_gameBoard();">Level Two (medium)</button>
+    <button class=levelThree_button onclick="create_levelThree_gameBoard();">Level Three (hard)</button>
+  </div> 
 
 
   <div id="plus">

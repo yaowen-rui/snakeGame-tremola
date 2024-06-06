@@ -185,7 +185,7 @@ textarea {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100vh; /* Full height of the viewport */
+  height: 80vh; /* Full height of the viewport */
   gap: 20px; /* Space between buttons */
 }
 
@@ -257,6 +257,37 @@ background-color: #bb176c;
   box-shadow: 0 5px #666;
   transform:translateY(4px);
 }
+.cell-container{
+  display:grid;
+  gap: 0; /* Adjust gap between grid cells as needed */
+  width: 150%;
+  max-width: 350px; /* Adjust max width as needed */
+  margin: 0 auto; /* Center the grid container */
+}
+.cell-item{
+  border: 2px solid black; /* Adjust border styling as needed */
+  width: 100%;
+  padding-top: 100%; /* This creates a square cell */
+  position: relative;
+}
+.cell-content{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white; /* Default background color */
+}
+.status-info {
+  margin-bottom: 10px;
+  font-size: 16px; /* Adjust font size as needed */
+  text-align: center;
+  width: 100%;
+}
+
 
 .chat_item_button {
   border: none;

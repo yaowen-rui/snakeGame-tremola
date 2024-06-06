@@ -8,7 +8,7 @@ var display_or_not = [
     'div:qr', 'div:back',
     'core', 'lst:chats', 'div:posts', 'lst:contacts', 'lst:members', 'the:connex',
     'lst:kanban', 'div:footer', 'div:textarea', 'div:confirm-members', 'plus',
-    'div:settings', 'div:board', 'lst:game_lobby'
+    'div:settings', 'div:board', 'lst:game_lobby'//, 'game_board'
 ];
 
 var prev_scenario = 'chats';
@@ -24,7 +24,7 @@ var scenarioDisplay = {
     'kanban': ['div:qr', 'core', 'lst:kanban', 'div:footer', 'plus'],
     'board': ['div:back', 'core', 'div:board'],
     'game_lobby': ['div:qr', 'core', 'lst:game_lobby', 'div:footer'],
-    'game_board': ['div:back', 'core', 'div:game_board']
+    'game_board': ['div:back', 'core', 'game_board']
 }
 
 var scenarioMenu = {
@@ -81,9 +81,11 @@ var scenarioMenu = {
     'game_lobby': [['Invitations', 'menu_board_invitations'],
         ['Achievement', 'show_my_achievement'],
         ['Game history','show_game_history']],
-    'game_board':[['Invite Users', 'menu_invite'],
+
+    'game_board': [['Invite Users', 'menu_invite'],
         ['Reload', 'reload_curr_board'],
-        ['Leave', 'leave_curr_board']]
+        ['Leave', 'leave_curr_game'],
+        ['Play Again', 'play_again_with_curr_person']]
 }
 
 const QR_SCAN_TARGET = {
@@ -267,6 +269,9 @@ function closeOverlay() {
     document.getElementById('div:debug').style.display = 'none'
     document.getElementById("div:invite_menu").style.display = 'none'
 
+    //game lobby overlays
+    document.getElementById('lst:game_lobby').style.display = 'none'
+    
     overlayIsActive = false;
 
     if (curr_img_candidate != null) {

@@ -13,6 +13,7 @@
   <script type="text/javascript" charset="UTF-8" src="board_ui.js"></script>
   <script type="text/javascript" charset="UTF-8" src="pako.min.js"></script>
   <script type="text/javascript" charset="UTF-8" src="sketch.js"></script>
+  <script type="text/javascript" charset="UTF-8" src="gameBoard_ui.js"></script>
 </head>
 <body style="background-image: url('img/splash-as-background.jpg'); background-size: cover; background-color: white; overflow: hidden" onload="backend('ready');">
 <div style="width: 100%; height: 100%; margin: 0px">
@@ -97,12 +98,31 @@
     </div>
   </div>
 
-  <div id="lst:game_lobby">
-    <button class=levelOne_button onclick="create_levelOne_gameBoard();">Level One (easy)</button>
-    <button class=levelTwo_button onclick="create_levelTwo_gameBoard();">Level Two (medium)</button>
-    <button class=levelThree_button onclick="create_levelThree_gameBoard();">Level Three (hard)</button>
+  <div id="lst:game_lobby" class=w100>
+    <button class=levelOne_button onclick="create_gameBoard('levelOne');">Level One (easy)</button>
+    <button class=levelTwo_button onclick="create_gameBoard('levelTwo');">Level Two (medium)</button>
+    <button class=levelThree_button onclick="create_gameBoard('levelThree');">Level Three (hard)</button>
   </div> 
 
+  <!--TODO: game_board should have goBack button without footer-->
+  
+  <div id="game_board">
+    <div id='levelOne_overlay' >
+      <div id='statusInfoOne' class="status-info" style="display: none;">Movement information: <span id="statusInfo_levelOne">0</span></div>
+      <div id='cellContainer' class="cell-container"></div>
+    </div>
+  
+    <div id='levelTwo_overlay'>
+      <div id='statusInfoTwo' class="status-info" style="display: none;">Movement information: <span id="statusInfo_levelOne">0</span></div>
+      <div id='cellContainer' class="cell-container"></div>
+    </div>
+  
+    <div id='levelThree_overlay'>
+      <div id='statusInfoThree' class="status-info" style="display: none;">Movement information: <span id="statusInfo_levelOne">0</span></div>
+      <div id='cellContainer' class="cell-container"></div>
+    </div>
+  </div>
+  
 
   <div id="plus">
     <button class=float_button onclick="plus_button();">+</button>

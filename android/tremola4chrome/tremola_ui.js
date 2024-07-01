@@ -8,7 +8,7 @@ var display_or_not = [
     'div:qr', 'div:back',
     'core', 'lst:chats', 'div:posts', 'lst:contacts', 'lst:members', 'the:connex',
     'lst:kanban', 'div:footer', 'div:textarea', 'div:confirm-members', 'plus',
-    'div:settings', 'div:board', 'lst:game_lobby', 'game_board'
+    'div:settings', 'div:board', 'lst:game_lobby', 'div:game_board'
 ];
 
 var prev_scenario = 'chats';
@@ -24,7 +24,7 @@ var scenarioDisplay = {
     'kanban': ['div:qr', 'core', 'lst:kanban', 'div:footer', 'plus'],
     'board': ['div:back', 'core', 'div:board'],
     'game_lobby': ['div:qr', 'core', 'lst:game_lobby', 'div:footer'],
-    'game_board': ['div:back', 'core', 'game_board']
+    'game_board': ['div:back', 'core', 'div:game_board']
 }
 
 var scenarioMenu = {
@@ -184,10 +184,10 @@ function setScenario(s) {
         }
 
         if (s == 'game_lobby'){
-            document.getElementById('game_board').style.display = 'none';
+            document.getElementById('div:game_board').style.display = 'none';
         }
         if (s == 'game_board'){
-            document.getElementById('game_board').style.display = 'block';
+            document.getElementById('div:game_board').style.display = 'block';
         }
 
 

@@ -13,17 +13,26 @@ function closeGameOverlay() {
 function create_gameBoard(level) {//level:levelOne,levelTwo,levelThree
     closeOverlay();
     closeGameOverlay();
-    document.getElementById('game_board').style.display="block";
+    prev_scenario= "game_lobby";
+    setScenario("game_board");
+
+    document.getElementById('div:game_board').style.display="block";
+    document.getElementById("tremolaTitle").style.display = 'none';
+    var c = document.getElementById("conversationTitle");
+    c.style.display = null;
 
     if (level === 'levelOne') {//9x9 Grid
         create_cells('levelOne_overlay', 9);
         document.getElementById("statusInfoOne").style.display="block";
+        c.innerHTML = "<font size=+1><strong>current: Level One</strong></font>";
     } else if (level === 'levelTwo') {//11x11
         create_cells('levelTwo_overlay', 11);
         document.getElementById("statusInfoTwo").style.display="block";
+        c.innerHTML = "<font size=+1><strong>current: Level Two</strong></font>";
     } else if (level === 'levelThree') {//14x14
         create_cells('levelThree_overlay', 14);
         document.getElementById("statusInfoThree").style.display="block";
+        c.innerHTML = "<font size=+1><strong>current: Level Three</strong></font>";
     } else {
         console.error('Unknown game level:', level);
     }

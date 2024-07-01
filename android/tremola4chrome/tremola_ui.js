@@ -8,7 +8,7 @@ var display_or_not = [
     'div:qr', 'div:back',
     'core', 'lst:chats', 'div:posts', 'lst:contacts', 'lst:members', 'the:connex',
     'lst:kanban', 'div:footer', 'div:textarea', 'div:confirm-members', 'plus',
-    'div:settings', 'div:board', 'lst:game_lobby'//, 'game_board'
+    'div:settings', 'div:board', 'lst:game_lobby', 'game_board'
 ];
 
 var prev_scenario = 'chats';
@@ -271,7 +271,7 @@ function closeOverlay() {
 
     //game lobby overlays
     document.getElementById('lst:game_lobby').style.display = 'none'
-    
+
     overlayIsActive = false;
 
     if (curr_img_candidate != null) {

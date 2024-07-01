@@ -1,9 +1,20 @@
 //gameBoard_ui.js
 
 "use strict";
+function closeGameOverlay() {
+    // Hide all game overlays and status information
+    const overlays = ['levelOne_overlay', 'levelTwo_overlay', 'levelThree_overlay'];
+    const statusInfos = ['statusInfoOne', 'statusInfoTwo', 'statusInfoThree'];
 
-function create_gameBoard(level) {
+    overlays.forEach(id => document.getElementById(id).style.display = 'none');
+    statusInfos.forEach(id => document.getElementById(id).style.display = 'none');
+}
+
+function create_gameBoard(level) {//level:levelOne,levelTwo,levelThree
     closeOverlay();
+    closeGameOverlay();
+    document.getElementById('game_board').style.display="block";
+
     if (level === 'levelOne') {//9x9 Grid
         create_cells('levelOne_overlay', 9);
         document.getElementById("statusInfoOne").style.display="block";
@@ -19,7 +30,15 @@ function create_gameBoard(level) {
 }
 
 function create_cells(id, size) {
-    var container = document.getElementById('cellContainer');
+    var containerNum;
+    if( size == 9 ) {
+        containerNum='One';
+    } else if ( size == 11){
+        containerNum='Two';
+    } else {
+        containerNum = 'Three';
+    }
+    var container = document.getElementById('cellContainer'+containerNum);
     container.innerHTML = ''; // Clear any existing grid items
 
     container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;

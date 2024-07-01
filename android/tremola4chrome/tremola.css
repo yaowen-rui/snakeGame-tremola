@@ -179,6 +179,9 @@ textarea {
     font-family: HelveticaNeue-Light;
   box-shadow: 0 0 30px rgba(0,0,0,0.7);
 }
+/* --------------------------------------------------------------------------- */
+/*                               snake game                                    */
+/* --------------------------------------------------------------------------- */
 
 #lst\:game_lobby {
   display: flex;
@@ -257,6 +260,15 @@ background-color: #bb176c;
   box-shadow: 0 5px #666;
   transform:translateY(4px);
 }
+
+.game-board{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
 .cell-container{
   display:grid;
   gap: 0; /* Adjust gap between grid cells as needed */
@@ -288,6 +300,7 @@ background-color: #bb176c;
   width: 100%;
 }
 
+/* --------------------------------------------------------------------------- */
 
 .chat_item_button {
   border: none;

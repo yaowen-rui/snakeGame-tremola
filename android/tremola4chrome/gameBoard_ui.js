@@ -3,6 +3,8 @@
 "use strict";
 
 function create_gameBoard(level) {
+    document.getElementById("div:columns_container").innerHTML = "" //clear old content
+    setScenario('game_board')
     closeOverlay();
     if (level === 'levelOne') {//9x9 Grid
         create_cells('levelOne_overlay', 9);
@@ -19,17 +21,17 @@ function create_gameBoard(level) {
 }
 
 function create_cells(id, size) {
-    var container = document.getElementById('cellContainer');
+    const container = document.getElementById('cellContainer');
     container.innerHTML = ''; // Clear any existing grid items
 
     container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     container.style.gridTemplateRows = `repeat(${size}, 1fr)`;
     //create x*x single cells
     for (var i = 0; i < size*size; i++) {
-        var cellItem = document.createElement("div");
+        const cellItem = document.createElement("div");
         cellItem.classList.add('cell-item');
 
-        var cellContent = document.createElement("div");
+        const cellContent = document.createElement("div");
         cellContent.classList.add('cell-content');
         cellContent.onclick = () => {
             //TODO: game logic
@@ -40,4 +42,5 @@ function create_cells(id, size) {
         container.appendChild(cellItem);
     }
     document.getElementById(id).style.display = 'block';
+    
 }

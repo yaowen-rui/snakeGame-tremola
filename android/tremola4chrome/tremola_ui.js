@@ -183,6 +183,14 @@ function setScenario(s) {
             }
         }
 
+        if (s == 'game_lobby'){
+            document.getElementById('game_board').style.display = 'none';
+        }
+        if (s == 'game_board'){
+            document.getElementById('game_board').style.display = 'block';
+        }
+
+
     }
 }
 

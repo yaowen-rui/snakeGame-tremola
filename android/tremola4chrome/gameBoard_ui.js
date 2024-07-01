@@ -8,13 +8,13 @@ function create_gameBoard(level) {
     closeOverlay();
     if (level === 'levelOne') {//9x9 Grid
         create_cells('levelOne_overlay', 9);
-        document.getElementById("statusInfoOne").style.display="block";
+        document.getElementById("statusInfo").style.display="block";
     } else if (level === 'levelTwo') {//11x11
         create_cells('levelTwo_overlay', 11);
-        document.getElementById("statusInfoTwo").style.display="block";
+        document.getElementById("statusInfo").style.display="block";
     } else if (level === 'levelThree') {//14x14
         create_cells('levelThree_overlay', 14);
-        document.getElementById("statusInfoThree").style.display="block";
+        document.getElementById("statusInfo").style.display="block";
     } else {
         console.error('Unknown game level:', level);
     }

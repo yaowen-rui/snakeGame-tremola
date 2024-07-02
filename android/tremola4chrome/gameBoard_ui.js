@@ -52,6 +52,7 @@ function create_cells(id, size) {
 
     container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     container.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
     //create x*x single cells
     for (var i = 0; i < size*size; i++) {
         const cellItem = document.createElement("div");
@@ -59,13 +60,18 @@ function create_cells(id, size) {
 
         const cellContent = document.createElement("div");
         cellContent.classList.add('cell-content');
+
+        const position = i;
         cellContent.onclick = () => {
-            //TODO: game logic
-            cellContent.style.backgroundColor = 'pink';
+            processTurnBoard(position, size, cellContent);
         }
 
         cellItem.appendChild(cellContent);
         container.appendChild(cellItem);
     }
     document.getElementById(id).style.display = 'block';
+}
+
+function processTurnBoard(position, size, cellContent){ // can't call other function directly
+    processTurn(position, size, cellContent);
 }

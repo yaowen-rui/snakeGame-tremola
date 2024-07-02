@@ -69,3 +69,53 @@ function create_cells(id, size) {
     }
     document.getElementById(id).style.display = 'block';
 }
+
+function show_game_manual() { //in game lobby
+    closeOverlay();
+    document.getElementById("gameLobby-manual-overlay").style.display = 'initial';
+    document.getElementById("overlay-bg").style.display = 'initial';
+    overlayIsActive = true;
+}
+
+function show_my_achievement() {//in game lobby
+    closeOverlay();
+    document.getElementById("gameLobby-achievement-overlay").style.display = 'initial';
+    document.getElementById("overlay-bg").style.display = 'initial';
+    overlayIsActive = true;
+
+    //TODO: data will be changed if we have the real data
+    const data = [
+        { id: 1, date: '02-07-2024', score: 12, level: 1, name: 'Sam' },
+        { id: 2, date: '02-07-2024', score: 11, level: 2, name: 'Sam' },
+        { id: 3, date: '02-07-2024', score: 12, level: 1, name: 'Sam' },
+        { id: 4, date: '02-07-2024', score: 12, level: 1, name: 'Sam' },
+        { id: 5, date: '02-07-2024', score: 12, level: 1, name: 'Sam' },
+        { id: 6, date: '02-07-2024', score: 12, level: 1, name: 'Sam' }
+    ];
+
+    const tableBody = document.getElementById('myAchievementTableBody');
+
+    data.forEach((item, index) => {
+        const row = document.createElement('tr');
+        if (index === 0) {
+            row.classList.add('active-row');
+        }
+
+        row.innerHTML = `
+            <td>${item.id}</td>
+            <td>${item.date}</td>
+            <td>${item.score}</td>
+            <td>${item.level}</td>
+            <td>${item.name}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+function show_game_history() {//in game lobby
+    closeOverlay();
+    document.getElementById("gameLobby-history-overlay").style.display = 'initial';
+    document.getElementById("overlay-bg").style.display = 'initial';
+    overlayIsActive = true;
+    //TODO: get data from game play and update table
+}

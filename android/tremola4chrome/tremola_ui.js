@@ -78,9 +78,9 @@ var scenarioMenu = {
         ['(un)Forget', 'board_toggle_forget'],
         ['Debug', 'ui_debug']],
 
-    'game_lobby': [['Invitations', 'menu_board_invitations'],
-        ['Achievement', 'show_my_achievement'],
-        ['Game history','show_game_history']],
+    'game_lobby': [['Achievement', 'show_my_achievement'],
+        ['Game history','show_game_history'],
+        ['Game manual','show_game_manual']],
 
     'game_board': [['Invite Users', 'menu_invite'],
         ['Reload', 'reload_curr_board'],
@@ -278,7 +278,9 @@ function closeOverlay() {
     document.getElementById("div:invite_menu").style.display = 'none'
 
     //game lobby overlays
-    document.getElementById('lst:game_lobby').style.display = 'none'
+    document.getElementById('gameLobby-manual-overlay').style.display = 'none'
+    document.getElementById('gameLobby-achievement-overlay').style.display = 'none'
+    document.getElementById('gameLobby-history-overlay').style.display = 'none'
 
     overlayIsActive = false;
 

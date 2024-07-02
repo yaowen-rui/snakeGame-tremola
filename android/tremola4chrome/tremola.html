@@ -105,16 +105,69 @@
     <button class=levelThree_button onclick="create_gameBoard('levelThree');">Level Three (hard)</button>
   </div> 
 
-  <div id="gameLobby-invitations-overlay" class='qr-overlay'>
-    <div style="text-align: center;font-size:20px;">
-      Invitations
-    </div>
-    <div id='gameLobby_invitations_list' style="padding-top: 15px;">
+  <div id="gameLobby-manual-overlay" class='qr-overlay' style="overflow: scroll; font-size: medium; height: 75%;">
+    <div style="text-align: center;">
+      <h2>Snake Game Manual</h2>
+      <p style="color: #e85132">Number of players: 2</p>
+      <p>
+        Welcome to the Snake Game! The objective of the game is to control a snake to occupy cells, grow longer, and avoid hitting the walls or other snake. Click on the grid cells to lengthen the snake.
+      </p>
+      <p style="text-align: left; color: darkblue" >
+        <strong>Game Rules:</strong><br>
+        - After entering each level, you could invite your friends on the contact to play with you.<br>
+        - Each player has a color for the snake and starts with one small continuous snake, length 1<br>
+        - In one turn, players lengthen their snake by one cell. Moves can be made in any direction, but not diagonally.<br>
+        - The lines of the snakes must not cross. Players can use the cells of the playing field to extend their snakes, but cannot do so from space painted in their “own” color.<br>
+        - The game ends when one of the players can no longer lengthen their snake.<br>
+        - The winner is the player who can continue to extend their snake when their opponent gets stuck.
+
+      </p>
+      <p style="text-align: left">
+        The game gets progressively harder as the snake grows longer. Try to lengthen your snake possible by occupying cells as many as you can without crashing!
+      </p>
     </div>
   </div>
 
-  <!--TODO: game_board should have goBack button without footer-->
-  
+  <!--display my own achievement: the first 6 records will be displayed-->
+  <div id="gameLobby-achievement-overlay" class='qr-overlay' style="overflow: scroll; font-size: medium;height: 65%; width: 50%;">
+    <div style="text-align: center;">
+      <h2>My Achievement</h2>
+      <table class="styled-table" >
+        <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Time</th>
+          <th>Snake length</th>
+          <th>Level Number</th>
+          <th>Partner</th>
+        </tr>
+        </thead>
+        <tbody id="myAchievementTableBody">
+        <!-- Rows will be generated in gameBoard_ui.js-->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="gameLobby-history-overlay" class='qr-overlay' style="overflow: scroll; font-size: medium; height:75%;">
+    <div style="text-align: center;">
+      <h2>Game History</h2>
+      <table class="styled-table" >
+        <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Winner</th>
+          <th>Snake length</th>
+          <th>Level Number</th>
+          <th>Partner</th>
+        </tr>
+        </thead>
+        <tbody id="historyTableBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <div id="div:game_board" >
     <div id='levelOne_overlay' class="game-board">
       <div id='statusInfoOne' class="status-info" style="display: none;">Movement information: <span id="statusInfo_levelOne">0</span></div>

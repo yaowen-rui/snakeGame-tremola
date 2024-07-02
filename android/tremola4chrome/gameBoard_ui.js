@@ -94,13 +94,13 @@ function show_my_achievement() {//in game lobby
     ];
 
     const tableBody = document.getElementById('myAchievementTableBody');
+    tableBody.innerHTML='';
 
     data.forEach((item, index) => {
         const row = document.createElement('tr');
         if (index === 0) {
             row.classList.add('active-row');
         }
-
         row.innerHTML = `
             <td>${item.id}</td>
             <td>${item.date}</td>
@@ -118,4 +118,32 @@ function show_game_history() {//in game lobby
     document.getElementById("overlay-bg").style.display = 'initial';
     overlayIsActive = true;
     //TODO: get data from game play and update table
+}
+
+function menu_invite() {//TODO
+    closeOverlay()
+    document.getElementById("div:gameBoard_invite_menu").style.display = 'initial';
+    document.getElementById("overlay-bg").style.display = 'initial';
+
+    document.getElementById("gameBoard_menu_invite_content").innerHTML = ''
+
+    for (var bid in tremola.contacts) {
+        gameBoard_invite_create_entry(bid)
+    }
+}
+
+//create entry in invitation, play can accept or reject
+function gameBoard_invite_create_entry(id) { //TODO
+    var gameBoard = tremola.game_board[curr_gameBoard]
+
+    if (document.getElementById("div:gameBoard_invite_menu").style.display == 'none')
+        return
+
+    var invitationId = gameBoard.pendingInvitations[myId][0]
+    var inviteUserId = gameBoard.operations[invitationId].fid
+    var inviteUserName = tremola.contacts[inviteUserId].alias
+
+    var invHTML='';//TODO
+
+    document.getElementById("gameBoard_menu_invite_content").innerHTML += invHTML
 }

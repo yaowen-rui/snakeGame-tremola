@@ -105,8 +105,8 @@
     <button class=levelThree_button onclick="create_gameBoard('levelThree');">Level Three (hard)</button>
   </div> 
 
-  <div id="gameLobby-manual-overlay" class='qr-overlay' style="overflow: scroll; font-size: medium; height: 75%;">
-    <div style="text-align: center;">
+  <div id="gameLobby-manual-overlay" class='game-overlay' style="overflow: scroll; font-size: medium; height: 75%;">
+    <div style="text-align: center; background-color: #f3f3f3 ">
       <h2>Snake Game Manual</h2>
       <p style="color: #e85132">Number of players: 2</p>
       <p>
@@ -129,10 +129,10 @@
   </div>
 
   <!--display my own achievement: the first 6 records will be displayed-->
-  <div id="gameLobby-achievement-overlay" class='qr-overlay' style="overflow: scroll; font-size: medium;height: 65%; width: 50%;">
+  <div id="gameLobby-achievement-overlay" class='game-overlay' style="overflow: scroll; font-size: medium;height: 75%; ">
     <div style="text-align: center;">
       <h2>My Achievement</h2>
-      <table class="styled-table" >
+      <table class="styled-table"  >
         <thead>
         <tr>
           <th>Rank</th>
@@ -142,14 +142,13 @@
           <th>Partner</th>
         </tr>
         </thead>
-        <tbody id="myAchievementTableBody">
-        <!-- Rows will be generated in gameBoard_ui.js-->
+        <tbody id="myAchievementTableBody"><!-- Rows will be generated in gameBoard_ui.js-->
         </tbody>
       </table>
     </div>
   </div>
 
-  <div id="gameLobby-history-overlay" class='qr-overlay' style="overflow: scroll; font-size: medium; height:75%;">
+  <div id="gameLobby-history-overlay" class='game-overlay' style="overflow: scroll; font-size: medium; height:75%;"  >
     <div style="text-align: center;">
       <h2>Game History</h2>
       <table class="styled-table" >
@@ -183,8 +182,17 @@
       <div id='statusInfoThree' class="status-info" style="display: none;">Movement information: <span id="statusInfo_levelThree">0</span></div>
       <div id='cellContainerThree' class="cell-container" ></div>
     </div>
+
+    <div id="div:gameBoard_invite_menu" class="qr-overlay">
+      <div id="gameBoard_menu_invite_hdr">
+        <b>Invite Users</b>
+      </div>
+      <div id="gameBoard_menu_invite_content" style="overflow-x: hidden;overflow-y: scroll;max-height: 70vh;"></div>
+    </div>
+
   </div>
-  
+
+
 
   <div id="plus">
     <button class=float_button onclick="plus_button();">+</button>

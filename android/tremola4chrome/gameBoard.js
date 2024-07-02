@@ -37,7 +37,7 @@ function lobby_new_event(e) {
 
 }
 
-function inviteUser(bid, userID) {
+function inviteUserToGame(bid, userID) {
     var gameBoard = tremola.game_board[bid]
     var data = {
         'bid': bid,

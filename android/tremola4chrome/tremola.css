@@ -299,6 +299,25 @@ background-color: #bb176c;
   text-align: center;
   width: 100%;
 }
+.game-overlay{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5em;
+  width: calc(80% - 16px);
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  cursor: default;
+  z-index: 10001;
+  border-radius: 4px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.9);
+  overflow-wrap: break-word;
+  background: #fff url("img/snake-bg.png");
+  background-size: cover; /* Adjust the image size to cover the entire element */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-position: center;
+}
 .styled-table {
   border-collapse: collapse;
   margin: 25px 0;
@@ -318,6 +337,7 @@ background-color: #bb176c;
 }
 .styled-table tbody tr {
   border-bottom: 1px solid #dddddd;
+  background-color: #a4cbe2;
 }
 
 .styled-table tbody tr:nth-of-type(even) {

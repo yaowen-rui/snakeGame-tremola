@@ -282,6 +282,9 @@ function closeOverlay() {
     document.getElementById('gameLobby-achievement-overlay').style.display = 'none'
     document.getElementById('gameLobby-history-overlay').style.display = 'none'
 
+    //game board overlays
+    document.getElementById('div:gameBoard_invite_menu').style.display = 'none'
+
     overlayIsActive = false;
 
     if (curr_img_candidate != null) {

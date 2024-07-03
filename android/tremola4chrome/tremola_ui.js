@@ -83,9 +83,9 @@ var scenarioMenu = {
         ['Game manual','show_game_manual']],
 
     'game_board': [['Invite Users', 'menu_invite'],
-        ['Reload', 'reload_curr_board'],
+        ['Unmatch', 'unmatch_curr_partner'],
         ['Leave', 'leave_curr_game'],
-        ['Play Again', 'play_again_with_curr_person']]
+        ['Play Again', 'play_again_with_curr_partner']]
 }
 
 const QR_SCAN_TARGET = {

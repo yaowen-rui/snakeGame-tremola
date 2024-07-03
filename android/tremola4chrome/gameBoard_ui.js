@@ -118,32 +118,47 @@ function show_game_history() {//in game lobby
     document.getElementById("overlay-bg").style.display = 'initial';
     overlayIsActive = true;
     //TODO: get data from game play and update table
+    //gameID, time, winner, snake length, level number, partner, game status
 }
 
-function menu_invite() {//TODO
-    closeOverlay()
-    document.getElementById("div:gameBoard_invite_menu").style.display = 'initial';
-    document.getElementById("overlay-bg").style.display = 'initial';
+function leave_curr_game() {
+    closeOverlay();
+    // if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.FINISHED)) {
+    //     setScenario('game_lobby');
+    //     return
+    // }
+    // if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.UNMATCHED)) {
+    //     setScenario('game_lobby');
+    //     return
+    // }
+    // if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.ONGOING)) {
+        const userConfirmed = confirm("Game is ongoing, Do you really want to leave?")
+        if(userConfirmed) {
+            //leave_game(curr_gameBoard)
+            setScenario('game_lobby')
+        } else {
+            launch_snackbar("You chose to stay in the game :)");
+        }
+    //}
 
-    document.getElementById("gameBoard_menu_invite_content").innerHTML = ''
+}
 
-    for (var bid in tremola.contacts) {
-        gameBoard_invite_create_entry(bid)
+function unmatch_curr_partner() {
+    closeOverlay();
+    if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.MATCHED)) {
+        const userConfirmed = confirm("Do you really want to unmatch your current partner?")
+        if(userConfirmed) {
+            unmatch_partner(curr_gameBoard);
+        } else {
+            launch_snackbar("You chose to keep the current partner :)");
+        }
     }
 }
 
-//create entry in invitation, play can accept or reject
-function gameBoard_invite_create_entry(id) { //TODO
-    var gameBoard = tremola.game_board[curr_gameBoard]
-
-    if (document.getElementById("div:gameBoard_invite_menu").style.display == 'none')
-        return
-
-    var invitationId = gameBoard.pendingInvitations[myId][0]
-    var inviteUserId = gameBoard.operations[invitationId].fid
-    var inviteUserName = tremola.contacts[inviteUserId].alias
-
-    var invHTML='';//TODO
-
-    document.getElementById("gameBoard_menu_invite_content").innerHTML += invHTML
+function play_again_with_curr_partner() {
+    closeOverlay();
+    if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.FINISHED)) {
+        restart_game();
+    }
+    launch_snackbar("cannot restart the game!")
 }

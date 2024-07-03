@@ -11,6 +11,14 @@ const Operation = {
     INVITE_DECLINE: 'invite/decline',
     LEAVE: 'leave'
 }
+
+const GAME_FLAG = {
+    UNMATCHED: 'no_partner_yet',
+    MATCHED: 'partner_matched_game_not_start',
+    ONGOING : 'ongoing',
+    FINISHED: 'finished',
+}
+
 function lobby_new_event(e) {
     // parse data
     var op = e.public[3]
@@ -31,13 +39,14 @@ function lobby_new_event(e) {
             "history": [],
             "lastUpdate": Date.now(),
             "pendingInvitations": {}, // User: [inviteIds]
+            "flags": [],
         }
     }
     var gameBoard = tremola.board[bid];
-
+    //TODO: to be continued
 }
 
-function inviteUserToGame(bid, userID) {
+function inviteUserToGame(bid, userID) {//TODO
     var gameBoard = tremola.game_board[bid]
     var data = {
         'bid': bid,
@@ -47,7 +56,7 @@ function inviteUserToGame(bid, userID) {
     board_send_to_backend(data)
 }
 
-function inviteAccept(bid, prev) {
+function inviteAccept(bid, prev) {//TODO
     var gameBoard = tremola.game_board[bid]
     var data = {
         'bid': bid,
@@ -57,7 +66,7 @@ function inviteAccept(bid, prev) {
     board_send_to_backend(data)
 }
 
-function inviteDecline(bid, prev) {
+function inviteDecline(bid, prev) {//TODO
     var gameBoard = tremola.game_board[bid]
     var data = {
         'bid': bid,
@@ -67,4 +76,14 @@ function inviteDecline(bid, prev) {
     board_send_to_backend(data)
 }
 
+function leave_game(bid) {
 
+}
+
+function unmatch_partner(bid) {
+
+}
+
+function restart_game() {
+
+}

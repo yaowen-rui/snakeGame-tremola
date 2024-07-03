@@ -187,3 +187,22 @@ function partner_invite_create_entry(id) {
 	invHTML += "</div></div></div>"
 	document.getElementById("gameBoard_menu_invite_content").innerHTML += invHTML
 }
+
+function gameOver_show_result() {
+    closeOverlay();
+    document.getElementById("gameBoard_gameOver_overlay").style.display = 'initial';
+    document.getElementById("overlay-bg").style.display = 'initial';
+
+    const winnerNameElement = document.getElementById('winner_name');
+    const winnerSnakeLengthElement = document.getElementById('winner_snake_length');
+    const mySnakeLengthElement = document.getElementById('my_snake_length');
+
+    //the real values should be changed later
+    const name = 'sam';
+    const winnerLength = 15;
+    const myLength = 8;
+
+    winnerNameElement.textContent = `WINNER: ${name}`;
+    winnerSnakeLengthElement.textContent = `Winner's snake length: ${winnerLength}`;
+    mySnakeLengthElement.textContent = `My snake length: ${myLength}`;
+}

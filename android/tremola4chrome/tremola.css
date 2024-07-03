@@ -351,6 +351,14 @@ background-color: #bb176c;
   font-weight: bold;
   color: rgba(243, 9, 141, 0.93);
 }
+.game-over-title{
+  color: #bb0707;
+  font-family: 'freight-big-pro';
+  font-size: 60px;
+  font-weight: bold;
+  letter-spacing: -6.5px;
+  overflow-wrap:initial;
+}
 /* -------------------------above are for snake game-------------------------------------------------- */
 
 .chat_item_button {

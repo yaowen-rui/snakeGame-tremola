@@ -162,3 +162,28 @@ function play_again_with_curr_partner() {
     }
     launch_snackbar("cannot restart the game!")
 }
+
+function invite_partner() {
+    closeOverlay()
+    document.getElementById("div:gameBoard_invite_menu").style.display = 'initial';
+    document.getElementById("overlay-bg").style.display = 'initial';
+	
+	document.getElementById("gameBoard_menu_invite_content").innerHTML = ''
+	for (var c in tremola.contacts) {
+        partner_invite_create_entry(c)
+    }
+}
+
+function partner_invite_create_entry(id) {
+    if (document.getElementById("div:gameBoard_invite_menu").style.display == 'none')
+        return
+	var invHTML = "	<div id='invite_" + id + "' class='kanban_invitation_container light' style='width:95%; margin: 5px 0px 7px 5px;' >"
+    invHTML += "<div class='kanban_invitation_text_container' >"
+    invHTML += "<div style='grid-area: name; padding-top: 5px; padding-left: 10px;font-size:15px'>" + tremola.contacts[id].alias + "</div>"
+	invHTML += "<div id='invite_author_" + id + "' style='grid-area: author; padding-top: 2px; padding-left: 10px;font-size:8px'></div></div>"
+    invHTML += "<div style='grid-area: btns;justify-self:end;display: flex;justify-content: center;align-items: center;'>"
+    invHTML += "<div style='padding-right:8px;'>"
+	invHTML += "<button id='invite_btn_" + id + "' class='flat passive buttontext' style=\"height: 40px; color: red; background-image: url('img/send.svg');width: 35px;\" >&nbsp;</button>"
+	invHTML += "</div></div></div>"
+	document.getElementById("gameBoard_menu_invite_content").innerHTML += invHTML
+}

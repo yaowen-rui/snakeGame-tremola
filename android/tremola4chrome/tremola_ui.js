@@ -82,7 +82,7 @@ var scenarioMenu = {
         ['Game history','show_game_history'],
         ['Game manual','show_game_manual']],
 
-    'game_board': [['Invite Users', 'menu_invite'],
+    'game_board': [['Invite Partner', 'invite_partner'],
         ['Unmatch', 'unmatch_curr_partner'],
         ['Leave', 'leave_curr_game'],
         ['Play Again', 'play_again_with_curr_partner']]

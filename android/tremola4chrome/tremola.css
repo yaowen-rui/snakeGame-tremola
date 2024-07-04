@@ -294,8 +294,10 @@ background-color: #bb176c;
   background-color: white; /* Default background color */
 }
 .status-info {
+  font-family: "American Typewriter";
+  color: rgba(209, 0, 150, 0.62);
   margin-bottom: 10px;
-  font-size: 16px; /* Adjust font size as needed */
+  font-size: 25px; /* Adjust font size as needed */
   text-align: center;
   width: 100%;
 }
@@ -320,8 +322,8 @@ background-color: #bb176c;
 }
 .styled-table {
   border-collapse: collapse;
-  margin: 25px 0;
-  font-size: 0.9em;
+  margin: 25px auto;
+  font-size: 1.3em;
   font-family: sans-serif;
   min-width: 400px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -358,6 +360,23 @@ background-color: #bb176c;
   font-weight: bold;
   letter-spacing: -6.5px;
   overflow-wrap:initial;
+}
+.final-table{
+  border-collapse:collapse;
+  margin: 25px auto;
+  font-size: 1.5em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  text-align: left;
+}
+.winner-row{
+  background-color: hotpink;
+  font-family: "American Typewriter";
+  font-size: 40px;
+}
+.normal-row{
+  background-color: cornsilk;
 }
 /* -------------------------above are for snake game-------------------------------------------------- */
 

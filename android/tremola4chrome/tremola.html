@@ -107,7 +107,7 @@
 
   <div id="gameLobby-manual-overlay" class='game-overlay' style="overflow: scroll; font-size: medium; height: 75%;">
     <div style="text-align: center; background-color: #f3f3f3 ">
-      <h2>Snake Game Manual</h2>
+      <h2 style="font-size: 50px;">Snake Game Manual</h2>
       <p style="color: #e85132">Number of players: 2</p>
       <p>
         Welcome to the Snake Game! The objective of the game is to control a snake to occupy cells, grow longer, and avoid hitting the walls or other snake. Click on the grid cells to lengthen the snake.
@@ -131,7 +131,7 @@
   <!--display my own achievement: the first 6 records will be displayed-->
   <div id="gameLobby-achievement-overlay" class='game-overlay' style="overflow: scroll; font-size: medium;height: 75%; ">
     <div style="text-align: center;">
-      <h2>My Achievement</h2>
+      <h2 style="font-size: 60px;">My Achievement</h2>
       <table class="styled-table"  >
         <thead>
         <tr>
@@ -150,7 +150,7 @@
 
   <div id="gameLobby-history-overlay" class='game-overlay' style="overflow: scroll; font-size: medium; height:75%;"  >
     <div style="text-align: center;">
-      <h2>Game History</h2>
+      <h2 style="font-size: 60px;">Game History</h2>
       <table class="styled-table" >
         <thead>
         <tr>
@@ -196,9 +196,24 @@
     <div id="gameBoard_gameOver_overlay" class="game-overlay" style="height:75%;">
       <div style="text-align: center;">
         <h2 class="game-over-title" style="background-color: aquamarine">GAME OVER</h2>
-        <p id="winner_name" style="background-color: gold;font-size: larger; color: deeppink ">WINNER: playerName</p>
-        <p id="winner_snake_length" style="background-color: lemonchiffon; font-size: larger;">Winner's snake length: 12</p>
-        <p id="my_snake_length" style="background-color: lemonchiffon; font-size: larger;">My snake length: 9</p>
+        <table class="final-table">
+          <tr class="winner-row">
+            <th>Winner Name:</th>
+            <td id="winner_name">lily</td>
+          </tr>
+          <tr class="normal-row">
+            <th>Partner Name:</th>
+            <td id="partner_name">lily</td>
+          </tr>
+          <tr class="normal-row">
+            <th>Partner Snake Length:</th>
+            <td id="partner_snake_length">15</td>
+          </tr>
+          <tr class="normal-row">
+            <th>My Snake Length:</th>
+            <td id="my_snake_length">12</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>

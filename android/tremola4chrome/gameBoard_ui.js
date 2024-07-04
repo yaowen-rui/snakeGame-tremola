@@ -193,16 +193,10 @@ function gameOver_show_result() {
     document.getElementById("gameBoard_gameOver_overlay").style.display = 'initial';
     document.getElementById("overlay-bg").style.display = 'initial';
 
-    const winnerNameElement = document.getElementById('winner_name');
-    const winnerSnakeLengthElement = document.getElementById('winner_snake_length');
-    const mySnakeLengthElement = document.getElementById('my_snake_length');
+    const finalValues = getFinalValues();
 
-    //the real values should be changed later
-    const name = 'sam';
-    const winnerLength = 15;
-    const myLength = 8;
-
-    winnerNameElement.textContent = `WINNER: ${name}`;
-    winnerSnakeLengthElement.textContent = `Winner's snake length: ${winnerLength}`;
-    mySnakeLengthElement.textContent = `My snake length: ${myLength}`;
+    document.getElementById('winner_name').textContent = finalValues.winner_name;
+    document.getElementById('partner_name').textContent = finalValues.partner_name;
+    document.getElementById('partner_snake_length').textContent = finalValues.partner_snake_length;
+    document.getElementById('my_snake_length').textContent = finalValues.my_snake_length;
 }

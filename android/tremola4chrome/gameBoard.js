@@ -87,3 +87,18 @@ function unmatch_partner(bid) {
 function restart_game() {
 
 }
+
+function getFinalValues() {
+    //TODO : the real values should be changed later
+    const winnerName = 'lisa';
+    const partnerName = 'lisa';
+    const partnerSnakeLength = 15+'';
+    const mySnakeLength = 8+'';
+
+    return {
+        winner_name: winnerName,
+        partner_name: partnerName,
+        partner_snake_length : partnerSnakeLength,
+        my_snake_length: mySnakeLength
+    };
+}

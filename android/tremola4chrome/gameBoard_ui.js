@@ -191,6 +191,45 @@ function partner_invite_create_entry(id) {
 	document.getElementById("gameBoard_menu_invite_content").innerHTML += invHTML
 }
 
+function receive_invitation_popUp() {
+    closeOverlay();
+    //question: when user can't receive the invitation: during the game?
+    // can one user match with multiple users? Does he need to unmatch with current partner so that he can match with other one?
+    //TODO: sender's info should be displayed in the invitation
+    var bid = 100101;
+    var level = 'levelOne';
+    var inviteUserName = 'lily';
+
+    var invHTML = "<div id='received_invitation_" + bid + "' class='kanban_invitation_container'>"
+    invHTML += "<div class='kanban_invitation_text_container'>"
+    invHTML += "<div id='received_invitation_" + bid + "_name' style='grid-area: name; padding-top: 5px; padding-left: 10px;font-size:20px'>" + level + "</div>"
+    invHTML += "<div style='grid-area: author; padding-top: 2px; padding-left: 10px;font-size:15px'>From: " + inviteUserName + "</div></div>"
+
+    invHTML += "<div style='grid-area: btns;justify-self:end;display: flex;justify-content: center;align-items: center;'>"
+    invHTML += "<div style='padding-right:8px;'>"
+    //invHTML += "<div style='padding-right:10px;'>"
+    invHTML += "<button class='flat passive buttontext' style=\"height: 40px; background-image: url('img/checked.svg'); width: 35px;margin-right:10px;background-color: var(--passive)\" onclick='btn_invite_accept(\"" + bid + "\")'>&nbsp;</button>"//</div>"
+    invHTML += "<button class='flat passive buttontext' style=\"height: 40px; color: red; background-image: url('img/cancel.svg');width: 35px;background-color: var(--passive)\" onclick='btn_invite_decline(\"" + bid + "\")'>&nbsp;</button>"
+    invHTML += "</div></div></div>"
+
+    document.getElementById("received_invitations").innerHTML += invHTML
+}
+
+function btn_invite_accept(bid) {
+    // gameInviteAccept(bid, tremola.game_board[bid].pendingInvitations[myId])
+    // delete tremola.game_board[bid].pendingInvitations[myId]
+    document.getElementById('receive_invitation_overlay').style.display = 'none'
+    launch_snackbar("Invitation accepted")
+
+}
+
+function btn_invite_decline(bid) {
+    // gameInviteDecline(bid, tremola.game_board[bid].pendingInvitations[myId])
+    // delete tremola.game_board[bid].pendingInvitations[myId]
+    document.getElementById('receive_invitation_overlay').style.display = 'none'
+    launch_snackbar("Invitation declined")
+}
+
 function gameOver_show_result() {
     closeOverlay();
     document.getElementById("gameBoard_gameOver_overlay").style.display = 'initial';

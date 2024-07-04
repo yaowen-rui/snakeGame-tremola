@@ -56,7 +56,7 @@ function inviteUserToGame(bid, userID) {//TODO
     board_send_to_backend(data)
 }
 
-function inviteAccept(bid, prev) {//TODO
+function gameInviteAccept(bid, prev) {//TODO
     var gameBoard = tremola.game_board[bid]
     var data = {
         'bid': bid,
@@ -66,7 +66,7 @@ function inviteAccept(bid, prev) {//TODO
     board_send_to_backend(data)
 }
 
-function inviteDecline(bid, prev) {//TODO
+function gameInviteDecline(bid, prev) {//TODO
     var gameBoard = tremola.game_board[bid]
     var data = {
         'bid': bid,
@@ -84,7 +84,7 @@ function unmatch_partner(bid) {
 
 }
 
-function restart_game() {
+function restart_game() {//Invite partner to play again, if accepts, restart the game, if declines, go back to lobby
 
 }
 

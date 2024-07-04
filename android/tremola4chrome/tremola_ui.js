@@ -85,7 +85,8 @@ var scenarioMenu = {
     'game_board': [['Invite Partner', 'invite_partner'],
         ['Unmatch', 'unmatch_curr_partner'],
         ['Leave', 'leave_curr_game'],
-        ['Play Again', 'play_again_with_curr_partner']]
+        ['Play Again', 'play_again_with_curr_partner'],
+        ['receive inv','receive_invitation_popUp']] //add menu item: receive inv just for testing view
 }
 
 const QR_SCAN_TARGET = {

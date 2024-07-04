@@ -251,6 +251,28 @@ function virtualBackend(event) {
         frontEnd.postMessage(['b2f', 'new_event', e], '*')
         broadcast(e);
     }
+    if (cmd[0] == 'snake') {
+        console.log('snake', cmd[1], cmd[4])
+        // var operation = JSON.parse(atob(cmd[1]));
+        // console.log(operation);
+        // cmd.splice(0,2)
+        cmd[0] = 'SNK';
+        var prev = cmd[2] //== "null" ? null : cmdStr[2]
+        if (prev != "null") {
+            prev = atob(cmd[2])
+            cmd[2] = prev.split(",").map(atob)
+        }
+        myseqno += 1;
+        var e = { 'header': {
+	            'tst': Date.now(),
+	            'ref': Math.floor(1000000*Math.random()),
+	            'fid': IDs[myname],
+	            'seq': myseqno},
+                  'public': cmd
+                }
+        frontEnd.postMessage(['b2f', 'new_event', e], '*')
+        broadcast(e);
+    }
     if (cmd[0] == 'iam') {
         console.log('iam', atob(cmd[1]));
         cmd[0] = 'IAM';

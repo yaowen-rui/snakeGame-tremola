@@ -5,7 +5,7 @@ function closeGameOverlay() {
     // Hide all game overlays and status information
     const overlays = ['levelOne_overlay', 'levelTwo_overlay', 'levelThree_overlay'];
     const statusInfos = ['statusInfoOne', 'statusInfoTwo', 'statusInfoThree'];
-
+    const partnerInfos = ['partnerInfoOne', 'partnerInfoTwo', 'partnerInfoThree']
     overlays.forEach(id => document.getElementById(id).style.display = 'none');
     statusInfos.forEach(id => document.getElementById(id).style.display = 'none');
 }
@@ -24,14 +24,17 @@ function create_gameBoard(level) {//level:levelOne,levelTwo,levelThree
     if (level === 'levelOne') {//9x9 Grid
         create_cells('levelOne_overlay', 9);
         document.getElementById("statusInfoOne").style.display="block";
+        document.getElementById("partnerInfoOne").style.display="block";//TODO: value should be updated when user found a match
         c.innerHTML = "<font size=+1><strong>current: Level One</strong></font>";
     } else if (level === 'levelTwo') {//11x11
         create_cells('levelTwo_overlay', 11);
         document.getElementById("statusInfoTwo").style.display="block";
+        document.getElementById("partnerInfoTwo").style.display="block";//TODO: value should be updated when user found a match
         c.innerHTML = "<font size=+1><strong>current: Level Two</strong></font>";
     } else if (level === 'levelThree') {//14x14
         create_cells('levelThree_overlay', 14);
         document.getElementById("statusInfoThree").style.display="block";
+        document.getElementById("partnerInfoThree").style.display="block";//TODO: value should be updated when user found a match
         c.innerHTML = "<font size=+1><strong>current: Level Three</strong></font>";
     } else {
         console.error('Unknown game level:', level);

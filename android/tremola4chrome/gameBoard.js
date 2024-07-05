@@ -2,9 +2,9 @@
 
 "use strict";
 
-var snake = [];
+var opponentSnake = []
+var snake = []; //own snake, keeping this name for now so I don't have to change everything else here
 var head = -1;
-// TODO: create vars for own snake and opponent snake, need to change other functions as well
 
 // Defined operations
 const snakeOperation = { 
@@ -15,6 +15,10 @@ const snakeOperation = {
 
 // Gets called after a cell gets clicked
 function processTurn(position, size, gid) {
+    if(position == -1){
+        console.log("You need to select a cell first!");
+        return;
+    }
     console.log("Current snake: " + snake)
     // If position is valid, set cell
     if(validPosition(position, size, snake)){
@@ -23,28 +27,32 @@ function processTurn(position, size, gid) {
             'gid' : gid,
             'op' : snakeOperation.SET_CELL,
             'args' : position,
-            'prev' : tremola.game_board[gid].curr_prev
+            'prev' : tremola.game_board[gid].currPrev
         };
         snakeSendToBackend(data);
     }
 
     // If no more option are available, do sth
-    if(!checkIfValidTurnAvailable(snake, size)){
-         // TODO: Do sth after no more options are available
+    if(!checkIfValidTurnAvailable(size)){
         console.log("You have no more moves left!");
+        finishGame(gid);
+        alert("Game is over!");
     }
 }
 
 // Checks if position is valid
-function validPosition(position, size, currentSnake){ // TODO: Needs to be extended with considering opponent snake
+function validPosition(position, size, currentSnake){
     // First cell
     if(currentSnake.length == 0){
         return true;
     }
-
     // Checks if the cell is already part of the snake
     if(currentSnake.includes(position)){
         console.log("Clicked cell already part of snake!");
+        return false;
+    }
+    if(opponentSnake.includes(position)){
+        console.log("Clicked cell already part of opponent snake!");
         return false;
     }
 
@@ -65,11 +73,12 @@ function validPosition(position, size, currentSnake){ // TODO: Needs to be exten
 }
 
 // Checks if there are any available cells left to extend the snake to
-function checkIfValidTurnAvailable(currentSnake, size){ // TODO: Needs to be extended with considering opponent snake
-    if((currentSnake.includes(head - 1) || head % size == 0) &&                   // x - 1 and if cell at left corner
-        (currentSnake.includes(head + 1) || head % size == size - 1) &&           // x + 1 and if cell at right corner
-        (currentSnake.includes(head - size) || head - size < 0) &&                // y - 1 and if cell at top
-        (currentSnake.includes(head + size) || head + size > size*size - 1)){     // y + 1 and if cell at bottom
+function checkIfValidTurnAvailable(size){
+    var markedCells = snake.concat(opponentSnake);
+    if((markedCells.includes(head - 1) || head % size == 0) &&                   // x - 1 and if cell at left wall
+        (markedCells.includes(head + 1) || head % size == size - 1) &&           // x + 1 and if cell at right wall
+        (markedCells.includes(head - size) || head - size < 0) &&                // y - 1 and if cell at top wall
+        (markedCells.includes(head + size) || head + size > size*size - 1)){     // y + 1 and if cell at bottom wall
         return false;
     }
     return true;
@@ -98,7 +107,7 @@ function snakeNewEvent(e){
             "operations": {}, // all received operations for this board
             "sortedOperations": new Timeline(), // sorted list of operations
             "players": [e.header.fid], // all players
-            "curr_prev": [] // prev pointer
+            "currPrev": [] // prev pointer
         };
     }
 
@@ -123,7 +132,7 @@ function snakeNewEvent(e){
 
     board.sortedOperations.add(e.header.ref, prev);
 
-    board.curr_prev = board.sortedOperations.get_tips();
+    board.currPrev = board.sortedOperations.get_tips();
 
     
 }
@@ -139,33 +148,49 @@ function createGame(gid){
     snakeSendToBackend(data);
 }
 
+// Creates a new game
+function finishGame(gid){
+    var board = tremola.game_board[gid];
+    var data = {
+        'gid' : gid,
+        'op' : snakeOperation.GAME_FINISH,
+        'args' : "null",
+        'prev' : board.currPrev
+    };
+    snakeSendToBackend(data);
+}
+
 // Adds cell to the snake at the given position, colors head DarkBlue and body DeepSkyBlue
 function addCellToSnake(pos){
     var x = returnX(pos, 9);
     var y = returnY(pos, 9);
     console.log("Set cell at (" + x + "," + y + ")!");
-    colorCell(pos, "DarkBlue");
+    colorCell(pos, "DarkBlue", false);
     if(head != -1){
-        colorCell(head, "DeepSkyBlue")
+        colorCell(head, "DeepSkyBlue", false)
     }
     snake.push(Number(pos));
     head = pos
-    console.log(snake)
+    //console.log(snake)
 }
 
 // Applies called operation
 function applyOperation(gid, operationID){
     console.log("Apply: " + operationID);
     var board = tremola.game_board[gid];
-    var currOP = board['operations'][operationID];
+    var currOp = board['operations'][operationID];
 
-    switch (currOP.body.cmd[0]){
+    switch (currOp.body.cmd[0]){
         case snakeOperation.GAME_CREATE: //TODO: do sth useful
             console.log("Created game!");
             break;
         case snakeOperation.SET_CELL:
-            var pos = currOP.body.cmd[1];
+            var pos = currOp.body.cmd[1];
             addCellToSnake(pos)
+            break;
+        case snakeOperation.GAME_FINISH: //TODO: do sth useful
+            console.log("Finished game!");
+            alert("Game is already over");
             break;
     }
 
@@ -173,13 +198,16 @@ function applyOperation(gid, operationID){
 
 // Loads the previous game state of the given GID if the game already exists
 function loadCurrentGameState(gid){
+    // Reset variables so everything is back to zero before loading the game
+    opponentSnake = []
     snake = [];
     head = -1;
+
     var board = tremola.game_board[gid];
     if(!(board == undefined)){
         var operations = linearTimeline(board.sortedOperations);
         for(var i in operations){
-            console.log(operations[i]);
+            //onsole.log(operations[i]);
             applyOperation(gid, operations[i]);
         }
     }
@@ -188,7 +216,6 @@ function loadCurrentGameState(gid){
         console.log("GID not found, creating new game...");
         createGame(gid);
     }
-    console.log(tremola.game_board);
 }
 
 // Returns the X coordinate of the given position

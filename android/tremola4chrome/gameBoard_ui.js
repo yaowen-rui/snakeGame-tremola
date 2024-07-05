@@ -4,7 +4,8 @@
 "use strict";
 
 var cells = []
-
+var clickedCell = -1
+var cellColors = {}
 
 function closeGameOverlay() {
     // Hide all game overlays and status information
@@ -46,6 +47,8 @@ function create_gameBoard(level) {//level:levelOne,levelTwo,levelThree
 
 function create_cells(id, size, gid) {
     cells = []
+    clickedCell = -1
+    cellColors = {}
     var containerNum;
     if( size == 9 ) {
         containerNum='One';
@@ -73,21 +76,49 @@ function create_cells(id, size, gid) {
 
         const position = i;
         cellContent.onclick = () => {
-            processTurnBoard(position, size, gid);
+            cellClick(position);
         }
 
         cellItem.appendChild(cellContent);
         container.appendChild(cellItem);
         cells.push(cellContent)
     }
+
+    // Create button to submit current turn
+    const button = document.createElement('button');
+    button.textContent = 'Submit turn';
+    const div =  document.getElementById('sendingButton'+containerNum)
+    div.innerHTML = '';
+    div.appendChild(button);
+    button.onclick = () => {
+        processTurn(clickedCell, size, gid);
+    }
     document.getElementById(id).style.display = 'block';
+    
+    // Load current game state if GID exists, else create new game
     loadCurrentGameState(gid);
 }
 
-function processTurnBoard(position, size, gid){ // can't call other function directly
-    processTurn(position, size, gid);
+// When a cell gets clicked
+function cellClick(position){
+    if(clickedCell != -1){
+        if(clickedCell in cellColors){
+            colorCell(clickedCell, cellColors[clickedCell], true);
+        }
+        else{
+            colorCell(clickedCell, "white", true);
+        }
+    }
+    clickedCell = position
+    colorCell(position, "black", true);
 }
 
-function colorCell(position, color){
+// Colors the cell in the desired color
+function colorCell(position, color, clickedOnly){
     cells[position].style.backgroundColor = color;
+    // If the flag "clickedOnly" is set, it means that the color change won't be persistent and only should indicate that the cell is currently highlighted
+    if(!clickedOnly){
+        cellColors[position] = color;
+    }
+    console.log("Set color " + color + " at position " + position);
 }

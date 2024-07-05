@@ -1,4 +1,5 @@
 //gameBoard_ui.js
+//import html2canvas from "html2canvas";
 
 "use strict";
 function closeGameOverlay() {
@@ -193,8 +194,6 @@ function partner_invite_create_entry(id) {
 
 function receive_invitation_popUp() {
     closeOverlay();
-    //question: when user can't receive the invitation: during the game?
-    // can one user match with multiple users? Does he need to unmatch with current partner so that he can match with other one?
     //TODO: sender's info should be displayed in the invitation
     var bid = 100101;
     var level = 'levelOne';
@@ -241,4 +240,29 @@ function gameOver_show_result() {
     document.getElementById('partner_name').textContent = finalValues.partner_name;
     document.getElementById('partner_snake_length').textContent = finalValues.partner_snake_length;
     document.getElementById('my_snake_length').textContent = finalValues.my_snake_length;
+}
+
+function show_all_screenshots() { //in game lobby
+    closeOverlay();
+    document.getElementById("gameLobby-screenshots-overlay").style.display = 'initial';
+    document.getElementById("overlay-bg").style.display = 'initial';
+    overlayIsActive = true;
+}
+
+function take_screenshot() { //in game board
+    //TODO: screenshot can just be downloaded locally instead of being saved in project folder
+    closeOverlay();
+    var screenshotIndex = 1;
+    html2canvas(document.getElementById('div:game_board'), {useCORS: true, allowTaint: false}).then(function(canvas) {
+        var imgURL = canvas.toDataURL("images/png");
+        var imgName = 'screenshot_' + (screenshotIndex++);
+
+        const aDom = document.createElement('a');
+        aDom.download = imgName;
+        aDom.href = imgURL;
+        document.body.appendChild(aDom);
+        aDom.click();
+        aDom.remove();//remove created element after download
+
+    });
 }

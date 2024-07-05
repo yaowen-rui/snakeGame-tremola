@@ -386,6 +386,13 @@ background-color: #bb176c;
 .normal-row{
   background-color: cornsilk;
 }
+
+#gameLobby-screenshots-overlay img { /*not be used yet*/
+  margin: 10px;
+  max-width: 30%;
+  max-height: 30%;
+  box-shadow: 0 0 10px #fff;
+}
 /* -------------------------above are for snake game-------------------------------------------------- */
 
 .chat_item_button {

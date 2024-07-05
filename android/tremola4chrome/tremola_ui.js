@@ -79,14 +79,16 @@ var scenarioMenu = {
         ['Debug', 'ui_debug']],
 
     'game_lobby': [['Achievement', 'show_my_achievement'],
-        ['Game history','show_game_history'],
-        ['Game manual','show_game_manual']],
+        ['Game history', 'show_game_history'],
+        ['Game manual', 'show_game_manual'],
+        ['Screenshots', 'show_all_screenshots']],
 
     'game_board': [['Invite Partner', 'invite_partner'],
         ['Unmatch', 'unmatch_curr_partner'],
         ['Leave', 'leave_curr_game'],
         ['Play Again', 'play_again_with_curr_partner'],
-        ['receive inv','receive_invitation_popUp']] //add menu item: receive inv just for testing view
+        ['Take screenshot', 'take_screenshot'],
+        ['receive inv', 'receive_invitation_popUp']] //add menu item: receive inv just for testing vie
 }
 
 const QR_SCAN_TARGET = {
@@ -282,6 +284,7 @@ function closeOverlay() {
     document.getElementById('gameLobby-manual-overlay').style.display = 'none'
     document.getElementById('gameLobby-achievement-overlay').style.display = 'none'
     document.getElementById('gameLobby-history-overlay').style.display = 'none'
+    document.getElementById('gameLobby-screenshots-overlay').style.display = 'none'
 
     //game board overlays
     document.getElementById('div:gameBoard_invite_menu').style.display = 'none'
@@ -406,7 +409,7 @@ function qr_scan_success(s) {
             menu_edit('new_contact_alias', "Assign alias to new contact:<br>(only you can see this alias)", "");
             break
         case QR_SCAN_TARGET.IMPORT_ID:
-            r = import_id(s)
+            var r = import_id(s)
             if (r) {
                 launch_snackbar("Successfully imported, restarting...")
             } else {

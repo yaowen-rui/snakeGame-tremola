@@ -247,6 +247,24 @@ function show_all_screenshots() { //in game lobby
     document.getElementById("gameLobby-screenshots-overlay").style.display = 'initial';
     document.getElementById("overlay-bg").style.display = 'initial';
     overlayIsActive = true;
+
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName('close')[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 }
 
 function take_screenshot() { //in game board
@@ -255,14 +273,29 @@ function take_screenshot() { //in game board
     var screenshotIndex = 1;
     html2canvas(document.getElementById('div:game_board'), {useCORS: true, allowTaint: false}).then(function(canvas) {
         var imgURL = canvas.toDataURL("images/png");
-        var imgName = 'screenshot_' + (screenshotIndex++);
 
-        const aDom = document.createElement('a');
-        aDom.download = imgName;
-        aDom.href = imgURL;
-        document.body.appendChild(aDom);
-        aDom.click();
-        aDom.remove();//remove created element after download
+        //download screenshot to local
+        var imgID = 'screenshot_' + (screenshotIndex++);
+        //const aDom = document.createElement('a');
+        //aDom.download = imgID;
+        //aDom.href = imgURL;
+        // document.body.appendChild(aDom);
+        // aDom.click();
+        // aDom.remove();//remove created element after download
 
+        //screenshot will be displayed in gameBoard-screenshot-overlay
+        var img = document.createElement('img');
+        img.src = imgURL;
+        img.id = imgID;
+        img.classList.add('screenshot-thumbnail');
+        document.getElementById('screenshot').appendChild(img);
+        //add click event to the img to open modal
+        img.addEventListener('click', function() {
+            var modal = document.getElementById('myModal');
+            var modalImg = document.getElementById('modalImg');
+            modal.style.display = 'block';
+            modalImg.src = imgURL;
+        })
     });
+    launch_snackbar("screenshot took!")
 }

@@ -409,6 +409,15 @@ background-color: #bb176c;
   background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
 }
 
+.send-button{
+  display:grid;
+  gap: 0; /* Adjust gap between grid cells as needed */
+  width: 150%;
+  max-width: 350px; /* Adjust max width as needed */
+  margin: 0 auto; /* Center the grid container */
+}
+
+/* --------------------------------------------------------------------------- */
 /* Modal content (image) */
 .modal-content {
   margin: auto;

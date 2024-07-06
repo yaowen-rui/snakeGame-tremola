@@ -91,6 +91,7 @@ function create_cells(id, size, gid) {
     // Create button to submit current turn
     const button = document.createElement('button');
     button.textContent = 'Submit turn';
+    button.className = 'submit-btn';
     const div =  document.getElementById('sendingButton'+containerNum)
     div.innerHTML = '';
     div.appendChild(button);
@@ -344,6 +345,7 @@ function take_screenshot() { //in game board
         document.getElementById('screenshot').appendChild(img);
         //add click event to the img to open modal
         img.addEventListener('click', function() {
+            document.getElementById('gameLobby-screenshots-overlay').style.display = 'none';
             var modal = document.getElementById('myModal');
             var modalImg = document.getElementById('modalImg');
             modal.style.display = 'block';

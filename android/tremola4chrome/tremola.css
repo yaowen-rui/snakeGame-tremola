@@ -416,7 +416,35 @@ background-color: #bb176c;
   max-width: 350px; /* Adjust max width as needed */
   margin: 0 auto; /* Center the grid container */
 }
-
+.submit-btn,
+.submit-btn:focus {
+  position: relative;
+  min-width: 200px;
+  background: rgba(243, 115, 183, 0.29);
+  color: #E1332D;
+  font-size: 1.3rem;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-sizing: inherit;
+  padding: 10px 20px;
+  border: 1px solid;
+  box-shadow: inset 0 0 20px rgba(225, 51, 45, 0);
+  outline: 1px solid !important;
+  outline-color: rgba(225, 51, 45, 0.5);
+  outline-offset: 0px;
+  text-shadow: none;
+  transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+.submit-btn:hover {
+  color: #E1332D;
+  border: 2px solid;
+  box-shadow: inset 0 0 22px rgba(225, 51, 45, 0.5), 0 0 22px rgba(225, 51, 45, 0.2);
+  outline: 2px solid !important;
+  outline-color: rgba(225, 51, 45, 0) !important;
+  outline-offset: 15px;
+  text-shadow: 1px 1px 2px #427388;
+}
 /* --------------------------------above are for snake------------------------------------------- */
 /* Modal content (image) */
 .modal-content {

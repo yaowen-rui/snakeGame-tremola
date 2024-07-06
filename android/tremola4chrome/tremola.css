@@ -387,7 +387,7 @@ background-color: #bb176c;
   background-color: cornsilk;
 }
 
-#gameLobby-screenshots-overlay img { /*not be used yet*/
+#gameLobby-screenshots-overlay img {
   margin: 10px;
   max-width: 30%;
   max-height: 30%;
@@ -417,7 +417,7 @@ background-color: #bb176c;
   margin: 0 auto; /* Center the grid container */
 }
 
-/* --------------------------------------------------------------------------- */
+/* --------------------------------above are for snake------------------------------------------- */
 /* Modal content (image) */
 .modal-content {
   margin: auto;

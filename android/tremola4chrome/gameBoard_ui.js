@@ -13,6 +13,7 @@ function closeGameOverlay() {
     const partnerInfos = ['partnerInfoOne', 'partnerInfoTwo', 'partnerInfoThree']
     overlays.forEach(id => document.getElementById(id).style.display = 'none');
     statusInfos.forEach(id => document.getElementById(id).style.display = 'none');
+    partnerInfos.forEach(id => document.getElementById(id).style.display = 'none');
 }
 
 function create_gameBoard(level) {//level:levelOne,levelTwo,levelThree
@@ -24,9 +25,10 @@ function create_gameBoard(level) {//level:levelOne,levelTwo,levelThree
 
     document.getElementById('div:game_board').style.display="block";
     document.getElementById("tremolaTitle").style.display = 'none';
-    var c = document.getElementById("conversationTitle");
+    var c = document.getElementById('conversationTitle');
     c.style.display = null;
 
+    //TODO: something wrong with create_cells function, the 3 code lines below will not be executed
     if (level === 'levelOne') {//9x9 Grid
         create_cells('levelOne_overlay', 9, gid);
         document.getElementById("statusInfoOne").style.display="block";
@@ -280,7 +282,7 @@ function btn_invite_decline(bid) {
     launch_snackbar("Invitation declined")
 }
 
-function gameOver_show_result() {
+function gameOver_show_result() { //pop up when game terminated
     closeOverlay();
     document.getElementById("gameBoard_gameOver_overlay").style.display = 'initial';
     document.getElementById("overlay-bg").style.display = 'initial';
@@ -319,7 +321,7 @@ function show_all_screenshots() { //in game lobby
 }
 
 function take_screenshot() { //in game board
-    //TODO: screenshot can just be downloaded locally instead of being saved in project folder
+    //TODO: screenshot can not be saved permanently now
     closeOverlay();
     var screenshotIndex = 1;
     html2canvas(document.getElementById('div:game_board'), {useCORS: true, allowTaint: false}).then(function(canvas) {

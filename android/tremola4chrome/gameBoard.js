@@ -297,3 +297,11 @@ function getFinalValues() {
         my_snake_length: mySnakeLength
     };
 }
+
+function saveScreenshotsToBackend(img) {
+
+}
+
+function deleteScreenshot() {
+
+}

@@ -321,6 +321,24 @@ function show_all_screenshots() { //in game lobby
     }
 }
 
+function showDeleteContextMenu(e, img) {
+
+    var contextMenu = document.getElementById('delete-screenshot-menu');
+    contextMenu.style.display = 'block';
+    contextMenu.style.left = e.clientX + 'px';
+    contextMenu.style.top = e.clientY + 'px';
+
+    document.getElementById('delete-option').onclick = function() {
+        console.log('you clicked on delete');
+        img.remove();
+        contextMenu.style.display = 'none';
+    }
+
+    window.onclick = function() {
+        contextMenu.style.display = 'none';
+    }
+}
+
 function take_screenshot() { //in game board
     //TODO: screenshot can not be saved permanently now
     closeOverlay();
@@ -350,6 +368,12 @@ function take_screenshot() { //in game board
             var modalImg = document.getElementById('modalImg');
             modal.style.display = 'block';
             modalImg.src = imgURL;
+        })
+        //add right-click event to img to show delete context menu
+        img.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            console.log('img right-clicked');
+            showDeleteContextMenu(e, img);
         })
     });
     launch_snackbar("screenshot took!")

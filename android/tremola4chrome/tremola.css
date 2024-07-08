@@ -192,6 +192,24 @@ textarea {
   gap: 20px; /* Space between buttons */
 }
 
+#lst\:game_list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh; /* Full height of the viewport */
+  gap: 20px; /* Space between buttons */
+}
+
+#lst\:game_main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh; /* Full height of the viewport */
+  gap: 20px; /* Space between buttons */
+}
+
 .levelOne_button{
   display: inline-block;
   padding: 15px 25px;

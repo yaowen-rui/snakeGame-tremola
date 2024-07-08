@@ -8,7 +8,7 @@ var display_or_not = [
     'div:qr', 'div:back',
     'core', 'lst:chats', 'div:posts', 'lst:contacts', 'lst:members', 'the:connex',
     'lst:kanban', 'div:footer', 'div:textarea', 'div:confirm-members', 'plus',
-    'div:settings', 'div:board', 'lst:game_lobby', 'div:game_board'
+    'div:settings', 'div:board', 'lst:game_lobby', 'div:game_board', 'lst:game_main', 'lst:game_list'
 ];
 
 var prev_scenario = 'chats';
@@ -23,8 +23,10 @@ var scenarioDisplay = {
     'settings': ['div:back', 'div:settings', 'core'],
     'kanban': ['div:qr', 'core', 'lst:kanban', 'div:footer', 'plus'],
     'board': ['div:back', 'core', 'div:board'],
-    'game_lobby': ['div:qr', 'core', 'lst:game_lobby', 'div:footer'],
-    'game_board': ['div:back', 'core', 'div:game_board']
+    'game_lobby': ['div:back', 'core', 'lst:game_lobby', 'div:footer'],
+    'game_board': ['div:back', 'core', 'div:game_board'],
+    'game_main' : ['div:qr', 'core', 'lst:game_main', 'div:footer'],
+    'game_list' : ['div:back', 'core', 'lst:game_list', 'div:footer'],
 }
 
 var scenarioMenu = {
@@ -88,7 +90,17 @@ var scenarioMenu = {
         ['Leave', 'leave_curr_game'],
         ['Play Again', 'play_again_with_curr_partner'],
         ['Take screenshot', 'take_screenshot'],
-        ['receive inv', 'receive_invitation_popUp']] //add menu item: receive inv just for testing vie
+        ['receive inv', 'receive_invitation_popUp']], //add menu item: receive inv just for testing view
+
+    'game_main': [['Achievement', 'show_my_achievement'],
+        ['Game history', 'show_game_history'],
+        ['Game manual', 'show_game_manual'],
+        ['Screenshots', 'show_all_screenshots']],
+
+    'game_list': [['Achievement', 'show_my_achievement'],
+        ['Game history', 'show_game_history'],
+        ['Game manual', 'show_game_manual'],
+        ['Screenshots', 'show_all_screenshots']]
 }
 
 const QR_SCAN_TARGET = {
@@ -103,13 +115,17 @@ function onBackPressed() {
         closeOverlay();
         return;
     }
-    if (['chats', 'contacts', 'connex', 'board', 'game_board'].indexOf(curr_scenario) >= 0) {
+    if (['chats', 'contacts', 'connex', 'board', 'game_board', 'game_lobby', 'game_list'].indexOf(curr_scenario) >= 0) {
         if (curr_scenario == 'chats')
             backend("onBackPressed");
         else if (curr_scenario == 'board')
             setScenario('kanban')
         else if (curr_scenario == 'game_board')
-            setScenario('game_lobby')
+            setScenario('game_main')
+        else if (curr_scenario == 'game_lobby')
+            setScenario('game_main')
+        else if (curr_scenario == 'game_list')
+            setScenario('game_main');
         else
             setScenario('chats')
     } else {
@@ -128,7 +144,7 @@ function setScenario(s) {
     var lst = scenarioDisplay[s];
     if (lst) {
         // if (s != 'posts' && curr_scenario != "members" && curr_scenario != 'posts') {
-    if (['chats', 'contacts', 'connex', 'kanban', 'game_lobby'].indexOf(curr_scenario) >= 0) {
+    if (['chats', 'contacts', 'connex', 'kanban', 'game_main'].indexOf(curr_scenario) >= 0) {
             var cl = document.getElementById('btn:' + curr_scenario).classList;
             cl.toggle('active', false);
             cl.toggle('passive', true);
@@ -162,7 +178,7 @@ function setScenario(s) {
             prev_scenario = s;
         }
         curr_scenario = s;
-        if (['chats', 'contacts', 'connex', 'kanban', 'game_lobby'].indexOf(curr_scenario) >= 0) {
+        if (['chats', 'contacts', 'connex', 'kanban', 'game_main'].indexOf(curr_scenario) >= 0) {
             var cl = document.getElementById('btn:' + curr_scenario).classList;
             cl.toggle('active', true);
             cl.toggle('passive', false);
@@ -199,7 +215,7 @@ function setScenario(s) {
 
 function btnBridge(e) {
     var e = e.id, m = '';
-    if (['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex', 'btn:kanban', 'btn:game_lobby'].indexOf(e) >= 0) {
+    if (['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex', 'btn:kanban', 'btn:game_main'].indexOf(e) >= 0) {
         setScenario(e.substring(4));
     }
     if (e == 'btn:menu') {

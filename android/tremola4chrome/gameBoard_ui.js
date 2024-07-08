@@ -340,18 +340,15 @@ function showDeleteContextMenu(e, img) {
 function take_screenshot() { //in game board
     //TODO: screenshot can not be saved permanently now
     closeOverlay();
-    var screenshotIndex = 1;
     html2canvas(document.getElementById('div:game_board'), {useCORS: true, allowTaint: false}).then(function(canvas) {
-        var imgURL = canvas.toDataURL("images/png");
+        var imgURL = canvas.toDataURL("images/png");//base64URL
 
-        //download screenshot to local
-        var imgID = 'screenshot_' + (screenshotIndex++);
-        //const aDom = document.createElement('a');
-        //aDom.download = imgID;
-        //aDom.href = imgURL;
-        // document.body.appendChild(aDom);
-        // aDom.click();
-        // aDom.remove();//remove created element after download
+        var blob = dataURLtoBlob(imgURL)
+        var imgID = 'sImg_' + Date.now();
+        var file = blobToFile(blob,imgID);
+        var formData = new FormData();
+        formData.append("screenshotFile", file, imgID);
+        sendScreenshotsToBackend(formData);
 
         //screenshot will be displayed in gameBoard-screenshot-overlay
         var img = document.createElement('img');

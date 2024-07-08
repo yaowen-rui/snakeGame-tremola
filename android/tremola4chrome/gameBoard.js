@@ -329,10 +329,38 @@ function getFinalValues() {
     };
 }
 
-function saveScreenshotsToBackend(img) {
-
+//convert screenshot img-base64 to blob
+function dataURLtoBlob(dataUrl) {
+    var arr = dataUrl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {
+        type: mime
+    });
 }
+
+//convert blob to file
+function blobToFile(theBlob, fileName) {
+    theBlob.lastModifiedDate = new Date();
+    theBlob.name = fileName;
+    return theBlob;
+}
+
+function sendScreenshotsToBackend(data) {
+    //TODO
+    backend("lobby " + btoa(data) + " screenshot");//btoa():encode; atob():decode
+}
+
 
 function deleteScreenshot() {
 
+}
+
+function sendHistoryToBackend(data) {
+    backend("lobby " + btoa(data) + " history");
 }

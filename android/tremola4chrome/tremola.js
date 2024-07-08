@@ -878,6 +878,8 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
         b2f_new_in_order_event(e)
         // console.log(e)
     } else if (cmdStr[0] == 'snake'){
+        //TODO:
+    } else if(cmdStr[0] == 'lobby') {
         var e = {
             'header': {
                 'tst': Date.now(),
@@ -885,23 +887,9 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
                 'fid': myId
             },
             'confid': {},
-            'public': ["SNK", cmdStr[1], prev, cmdStr[3]].concat(args)
+            'public': ["LOB", cmdStr[1], prev, cmdStr[3]].concat(args)
         }
         console.log('SNK e=', JSON.stringify(e))
-        b2f_new_in_order_event(e)
-    } else if(cmdStr[0] === 'lobby') {
-        var prev;//TODO
-        var args;
-        var e = {
-            'header' : {
-                'tst' :Date.now(),
-                'ref' : Math.floor(1000000 * Math.random()),
-                'fid' : myId
-            },
-            'confid' : {},
-            'public' : ["LOB", cmdStr[1], prev, cmdStr[3]].concat(args)
-        }
-        console.log("LOB e=", JSON.stringify(e))
         b2f_new_in_order_event(e)
     }
     else {
@@ -1258,6 +1246,8 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
 
         } else if (e.public[0] == "SNK") {
             b2f_new_in_order_event(e);
+        } else if (e.public[0] === 'LOB') {
+            b2f_new_voice()
         }
         persist();
         must_redraw = true;

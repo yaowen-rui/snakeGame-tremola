@@ -377,30 +377,38 @@ function take_screenshot() { //in game board
     launch_snackbar("screenshot took!")
 }
 
+
+// Loads all snake games that the current user is in
 function loadSnakeGames(){
     document.getElementById('lst:game_list').innerHTML = '';
     setScenario('game_list');
-    var ownId = "@AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=.ed25519"; //TODO: Fetch own id
+    var ownId = tremola.id;
+    console.log(tremola.contacts[myId].alias)
     
     for(const [key, value] of Object.entries(tremola.game_board)){
-        //console.log(value.key);
         if(value.players.includes(ownId)){
             displayGame(value);
         }
     }
 }
 
+// Displays a snake game as a clickable button with the relevant information
 function displayGame(game){
     var gid = game.key;
+    var board = tremola.game_board[gid];
+    var p0 = board.player0 != null ? tremola.contacts[board.player0].alias : "Nobody";
+    var p1 = board.player1 != null ? tremola.contacts[board.player1].alias : "Nobody";
+    var turn = board.currentPlayer == 0 ? p0 != "Nobody" ? p0 : "You need to invite an opponent first!" : p1 != "Nobody" ? p1 : "You need to invite an opponent first!";
     console.log("Found game with ID: " + gid + "!");
     var entryHTML = "<div class='w100' style='padding: 5px 5px 5px;'>";
         entryHTML += "<button class='game-list-entry' onclick='openGame(" + gid + ")'; style='display: table;float:right;overflow: hidden; width: calc(100% - 4.4em); margin-right:10px'>"; //TODO: add style for class
-        entryHTML += "Game ID: " + gid; //TODO: display relevant information
+        entryHTML += "Game ID: " + gid + " | Players: " + p0 + " vs " + p1 + " | Current turn: " + turn
         entryHTML += "</button></div>";
 
     document.getElementById('lst:game_list').innerHTML += entryHTML;
 }
 
+// Opens the ongoing game
 function openGame(gid){
     setScenario('game_board');
     var board = tremola.game_board[gid];

@@ -27,6 +27,17 @@ const snakeOperation = {
 
 // Gets called after a cell gets clicked
 function processTurn(position, size, gid) {
+    var board = tremola.game_board[gid];
+    if(board.currentPlayer == 0){
+        if(!(board.player0 == tremola.id)){
+            console.log("It's not your turn currently!");
+            return;
+        }
+    }
+    else if(!(board.player1 == tremola.id)){
+        console.log("It's not your turn currently!");
+        return;
+    }
     if(position == -1){
         console.log("You need to select a cell first!");
         return;
@@ -34,13 +45,14 @@ function processTurn(position, size, gid) {
     console.log("Current snake: " + snake)
     // If position is valid, set cell
     if(validPosition(position, size, snake)){
-        addCellToSnake(position)
+        addCellToSnake(position, gid)
         var data = {
             'gid' : gid,
             'op' : snakeOperation.SET_CELL,
             'args' : position,
             'prev' : tremola.game_board[gid].currPrev
         };
+        board.currentPlayer = (board.currentPlayer + 1) % 2;
         snakeSendToBackend(data);
     }
 
@@ -111,22 +123,25 @@ function snakeNewEvent(e){
     var op = e.public[3];
     var gid = e.public[1]
     var prev = e.public[2] != "null" ? e.public[2] : [];
-    var args = e.public[4];
+    var args = (e.public[4]).split('//');
+    console.log(args)
 
     // Add new entry if new board
     if(!(gid in tremola.game_board)) {
         tremola.game_board[gid] = { // TODO: extend and only keep necessary fields
             "key": gid.toString(),
-            "size": args,
+            "size": args[0],
             "operations": {}, // all received operations for this board
             "sortedOperations": new Timeline(), // sorted list of operations
             "players": [e.header.fid], // all players
             "currPrev": [], // prev pointer
             "currentPlayer": 0, // Current player
-            "player0": null, //TODO: add own player id here
+            "player0": args[1],
             "player1": null, //TODO: add opponent player id here
-            "color0": null, //TODO: add own color here
-            "color1": null //TODO: add opponent color here
+            "colorSnake0": "DeepSkyBlue", // Colors for now predefined, chosen randomly, will change for sure
+            "colorHead0": "DarkBlue",
+            "colorSnake1": "Orange",
+            "colorHead1": "Red"
         };
     }
 
@@ -156,18 +171,18 @@ function snakeNewEvent(e){
 
 }
 
-// Creates a new game
+// Creates a new game with given size and sets own id as player 0
 function createGame(gid, size){
     var data = {
         'gid' : gid,
         'op' : snakeOperation.GAME_CREATE,
-        'args' : size,
+        'args' : size + "//" + tremola.id,
         'prev' : null
     };
     snakeSendToBackend(data);
 }
 
-// Creates a new game
+// Finishes a game
 function finishGame(gid){
     var board = tremola.game_board[gid];
     var data = {
@@ -179,14 +194,23 @@ function finishGame(gid){
     snakeSendToBackend(data);
 }
 
-// Adds cell to the snake at the given position, colors head DarkBlue and body DeepSkyBlue
-function addCellToSnake(pos){
+// Adds cell to the snake at the given position with the board specific colors
+function addCellToSnake(pos, gid){
     var x = returnX(pos, 9);
     var y = returnY(pos, 9);
+    var board = tremola.game_board[gid];
+    if(board.currentPlayer == 0){
+        if(!(board.player0 == tremola.id)){
+            console.log("It's not your turn currently!");
+            return;
+        }
+    }
+    var snakeColor = board.currentPlayer == 0 ? board.colorSnake0 : board.colorSnake1;
+    var headColor = board.currentPlayer == 0 ? board.colorHead0 : board.colorHead1;
     console.log("Set cell at (" + x + "," + y + ")!");
-    colorCell(pos, "DarkBlue", false);
+    colorCell(pos, headColor, false);
     if(head != -1){
-        colorCell(head, "DeepSkyBlue", false)
+        colorCell(head, snakeColor, false)
     }
     snake.push(Number(pos));
     head = pos
@@ -205,7 +229,7 @@ function applyOperation(gid, operationID){
             break;
         case snakeOperation.SET_CELL:
             var pos = currOp.body.cmd[1];
-            addCellToSnake(pos)
+            addCellToSnake(pos, gid)
             break;
         case snakeOperation.GAME_FINISH: //TODO: do sth useful
             console.log("Finished game!");

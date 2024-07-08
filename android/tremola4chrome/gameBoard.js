@@ -116,10 +116,17 @@ function snakeNewEvent(e){
     // Add new entry if new board
     if(!(gid in tremola.game_board)) {
         tremola.game_board[gid] = { // TODO: extend and only keep necessary fields
+            "key": gid.toString(),
+            "size": args,
             "operations": {}, // all received operations for this board
             "sortedOperations": new Timeline(), // sorted list of operations
             "players": [e.header.fid], // all players
-            "currPrev": [] // prev pointer
+            "currPrev": [], // prev pointer
+            "currentPlayer": 0, // Current player
+            "player0": null, //TODO: add own player id here
+            "player1": null, //TODO: add opponent player id here
+            "color0": null, //TODO: add own color here
+            "color1": null //TODO: add opponent color here
         };
     }
 
@@ -150,11 +157,11 @@ function snakeNewEvent(e){
 }
 
 // Creates a new game
-function createGame(gid){
+function createGame(gid, size){
     var data = {
         'gid' : gid,
         'op' : snakeOperation.GAME_CREATE,
-        'args' : "null",
+        'args' : size,
         'prev' : null
     };
     snakeSendToBackend(data);
@@ -209,7 +216,7 @@ function applyOperation(gid, operationID){
 }
 
 // Loads the previous game state of the given GID if the game already exists
-function loadCurrentGameState(gid){
+function loadCurrentGameState(gid, size){
     // Reset variables so everything is back to zero before loading the game
     opponentSnake = []
     snake = [];
@@ -226,7 +233,7 @@ function loadCurrentGameState(gid){
     // Create new game if game with given GID does not exist
     else {
         console.log("GID not found, creating new game...");
-        createGame(gid);
+        createGame(gid, size);
     }
 }
 

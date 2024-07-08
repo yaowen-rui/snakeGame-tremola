@@ -17,7 +17,8 @@ function closeGameOverlay() {
 }
 
 function create_gameBoard(level) {//level:levelOne,levelTwo,levelThree
-    var gid = prompt("Please enter your game id","0");
+    var gid = Math.floor(1000000*Math.random());
+    console.log("Created game with ID: " + gid);
     closeOverlay();
     closeGameOverlay();
     prev_scenario= "game_lobby";
@@ -56,13 +57,10 @@ function create_cells(id, size, gid) {
     var containerNum;
     if( size == 9 ) {
         containerNum='One';
-        gid = "1" + gid;
     } else if ( size == 11){
         containerNum='Two';
-        gid = "2" + gid;
     } else {
         containerNum = 'Three';
-        gid = "3" + gid
     }
     const container = document.getElementById('cellContainer'+containerNum);
     container.innerHTML = ''; // Clear any existing grid items
@@ -101,7 +99,7 @@ function create_cells(id, size, gid) {
     document.getElementById(id).style.display = 'block';
 
     // Load current game state if GID exists, else create new game
-    loadCurrentGameState(gid);
+    loadCurrentGameState(gid, size);
 }
 
 // When a cell gets clicked
@@ -377,4 +375,44 @@ function take_screenshot() { //in game board
         })
     });
     launch_snackbar("screenshot took!")
+}
+
+function loadSnakeGames(){
+    document.getElementById('lst:game_list').innerHTML = '';
+    setScenario('game_list');
+    var ownId = "@AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=.ed25519"; //TODO: Fetch own id
+    
+    for(const [key, value] of Object.entries(tremola.game_board)){
+        //console.log(value.key);
+        if(value.players.includes(ownId)){
+            displayGame(value);
+        }
+    }
+}
+
+function displayGame(game){
+    var gid = game.key;
+    console.log("Found game with ID: " + gid + "!");
+    var entryHTML = "<div class='w100' style='padding: 5px 5px 5px;'>";
+        entryHTML += "<button class='game-list-entry' onclick='openGame(" + gid + ")'; style='display: table;float:right;overflow: hidden; width: calc(100% - 4.4em); margin-right:10px'>"; //TODO: add style for class
+        entryHTML += "Game ID: " + gid; //TODO: display relevant information
+        entryHTML += "</button></div>";
+
+    document.getElementById('lst:game_list').innerHTML += entryHTML;
+}
+
+function openGame(gid){
+    setScenario('game_board');
+    var board = tremola.game_board[gid];
+    var size = board.size;
+    var id = "";
+    switch (size){
+        case '9': id = "levelOne_overlay"; break;
+        case '11': id = "levelTwo_overlay"; break;
+        case '14': id = "levelThree_overlay"; break;
+    }
+    console.log(id);
+    console.log(size)
+    create_cells(id, size, gid);
+
 }

@@ -269,6 +269,7 @@ background-color: #bb176c;
   position: relative;
 }
 
+
 .cell-container{
   display:grid;
   gap: 0; /* Adjust gap between grid cells as needed */
@@ -339,7 +340,6 @@ background-color: #bb176c;
   border-bottom: 1px solid #dddddd;
   background-color: #a4cbe2;
 }
-
 .styled-table tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
 }
@@ -351,7 +351,15 @@ background-color: #bb176c;
   font-weight: bold;
   color: rgba(243, 9, 141, 0.93);
 }
+.send-button{
+  display:grid;
+  gap: 0; /* Adjust gap between grid cells as needed */
+  width: 150%;
+  max-width: 350px; /* Adjust max width as needed */
+  margin: 0 auto; /* Center the grid container */
+}
 /* -------------------------above are for snake game-------------------------------------------------- */
+
 
 .chat_item_button {
   border: none;
@@ -860,4 +868,3 @@ input:checked + .slider:before {
   height: 40px;
   width: 35px
 }
-

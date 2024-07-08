@@ -877,7 +877,21 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
         console.log('KAN e=', JSON.stringify(e))
         b2f_new_in_order_event(e)
         // console.log(e)
-    } else {
+    } else if (cmdStr[0] == 'snake'){
+        var e = {
+            'header': {
+                'tst': Date.now(),
+                'ref': Math.floor(1000000 * Math.random()),
+                'fid': myId
+            },
+            'confid': {},
+            'public': ["SNK", cmdStr[1], prev, cmdStr[3]].concat(args)
+        }
+        console.log('SNK e=', JSON.stringify(e))
+        b2f_new_in_order_event(e)
+    }
+    
+    else {
         console.log('fake backend, not implemented:', JSON.stringify(cmdStr))
     }
 }
@@ -1086,6 +1100,10 @@ function b2f_new_in_order_event(e) {
             console.log("New kanban event")
             kanban_new_event(e)
             break
+        case "SNK":
+            console.log("New snake event");
+            snakeNewEvent(e);
+            break;
         default:
             return
     }
@@ -1224,6 +1242,8 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
                 }
             }
 
+        } else if (e.public[0] == "SNK") {
+            b2f_new_in_order_event(e);
         }
         persist();
         must_redraw = true;

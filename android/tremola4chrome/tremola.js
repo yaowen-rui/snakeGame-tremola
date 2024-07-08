@@ -889,8 +889,21 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
         }
         console.log('SNK e=', JSON.stringify(e))
         b2f_new_in_order_event(e)
+    } else if(cmdStr[0] === 'lobby') {
+        var prev;//TODO
+        var args;
+        var e = {
+            'header' : {
+                'tst' :Date.now(),
+                'ref' : Math.floor(1000000 * Math.random()),
+                'fid' : myId
+            },
+            'confid' : {},
+            'public' : ["LOB", cmdStr[1], prev, cmdStr[3]].concat(args)
+        }
+        console.log("LOB e=", JSON.stringify(e))
+        b2f_new_in_order_event(e)
     }
-    
     else {
         console.log('fake backend, not implemented:', JSON.stringify(cmdStr))
     }
@@ -904,7 +917,8 @@ function resetTremola() { // wipes browser-side content
         "id": myId,
         "settings": get_default_settings(),
         "board": {},
-        "game_board": {}
+        "game_board": {},
+        "game_lobby" : {} //store the screenshots , game history , achievement
     }
     var n = recps2nm([myId])
 

@@ -219,7 +219,13 @@ function play_again_with_curr_partner() {
     launch_snackbar("cannot restart the game!")
 }
 
-function invite_partner() {
+function invite_partner( pid, gid) {
+    closeOverlay()
+    inviteUserToGame( gid, pid)
+    launch_snackbar("Invited " + tremola.contacts[pid].alias)
+}
+
+function invite_partner_menu() {
     closeOverlay()
     document.getElementById("div:gameBoard_invite_menu").style.display = 'initial';
     document.getElementById("overlay-bg").style.display = 'initial';
@@ -239,7 +245,7 @@ function partner_invite_create_entry(id) {
 	invHTML += "<div id='invite_author_" + id + "' style='grid-area: author; padding-top: 2px; padding-left: 10px;font-size:8px'></div></div>"
     invHTML += "<div style='grid-area: btns;justify-self:end;display: flex;justify-content: center;align-items: center;'>"
     invHTML += "<div style='padding-right:8px;'>"
-	invHTML += "<button id='invite_btn_" + id + "' class='flat passive buttontext' style=\"height: 40px; color: red; background-image: url('img/send.svg');width: 35px;\" >&nbsp;</button>"
+	invHTML += "<button id='invite_btn_" + id + "' class='flat passive buttontext' style=\"height: 40px; color: red; background-image: url('img/send.svg');width: 35px;\" onclick='invite_partner(\"" + id + "\", \"" + curr_gameBoard + "\")'>&nbsp;</button>"
 	invHTML += "</div></div></div>"
 	document.getElementById("gameBoard_menu_invite_content").innerHTML += invHTML
 }

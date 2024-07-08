@@ -45,14 +45,12 @@ function processTurn(position, size, gid) {
     console.log("Current snake: " + snake)
     // If position is valid, set cell
     if(validPosition(position, size, snake)){
-        addCellToSnake(position, gid)
         var data = {
             'gid' : gid,
             'op' : snakeOperation.SET_CELL,
             'args' : position,
             'prev' : tremola.game_board[gid].currPrev
         };
-        board.currentPlayer = (board.currentPlayer + 1) % 2;
         snakeSendToBackend(data);
     }
 
@@ -155,6 +153,11 @@ function snakeNewEvent(e){
     if (e.header.ref in board.operations)
         return;
 
+    if (op == snakeOperation.INVITE){
+        addPartner(gid, args[0])
+    }
+
+
     // Store operation
     var body = {
         'gid': gid,
@@ -163,6 +166,10 @@ function snakeNewEvent(e){
     };
     var p = {"key": e.header.ref, "fid": e.header.fid, "fid_seq": e.header.seq, "body": body, "when": e.header.tst};
     board["operations"][e.header.ref] = p;
+
+    if ( op == snakeOperation.SET_CELL && gid == curr_gameBoard){
+        addCellToSnake(args[0], gid)
+    }
 
     board.sortedOperations.add(e.header.ref, prev);
 
@@ -199,12 +206,6 @@ function addCellToSnake(pos, gid){
     var x = returnX(pos, 9);
     var y = returnY(pos, 9);
     var board = tremola.game_board[gid];
-    if(board.currentPlayer == 0){
-        if(!(board.player0 == tremola.id)){
-            console.log("It's not your turn currently!");
-            return;
-        }
-    }
     var snakeColor = board.currentPlayer == 0 ? board.colorSnake0 : board.colorSnake1;
     var headColor = board.currentPlayer == 0 ? board.colorHead0 : board.colorHead1;
     console.log("Set cell at (" + x + "," + y + ")!");
@@ -214,9 +215,14 @@ function addCellToSnake(pos, gid){
     }
     snake.push(Number(pos));
     head = pos
+    board.currentPlayer = (board.currentPlayer + 1) % 2;
     //console.log(snake)
 }
-
+function addPartner(gid, pid){
+    var board = tremola.game_board[gid];
+    board.player1 = pid;
+    board.players.push(pid);
+}
 // Applies called operation
 function applyOperation(gid, operationID){
     console.log("Apply: " + operationID);
@@ -245,10 +251,11 @@ function loadCurrentGameState(gid, size){
     opponentSnake = []
     snake = [];
     head = -1;
-
     var board = tremola.game_board[gid];
+    curr_gameBoard = gid
     if(!(board == undefined)){
         var operations = linearTimeline(board.sortedOperations);
+        board.currentPlayer = 0; // needed for correct colours
         for(var i in operations){
             //onsole.log(operations[i]);
             applyOperation(gid, operations[i]);
@@ -290,8 +297,15 @@ function linearTimeline(timeline) {
 
 
 
-function inviteUserToGame(bid, userID) {//TODO
-
+function inviteUserToGame(gid, userID) {//TODO
+    var board = tremola.game_board[gid]
+    var data = {
+        'gid' : gid,
+        'op' : snakeOperation.INVITE,
+        'args' : userID,
+        'prev' : board.currPrev
+    };
+    snakeSendToBackend(data);
 }
 
 function gameInviteAccept(bid, prev) {//TODO

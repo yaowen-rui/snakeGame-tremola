@@ -102,8 +102,8 @@
   </div>
 
   <div id="lst:game_main" class = w100>
-    <button class=levelOne_button onclick="setScenario('game_lobby');">New Game</button>
-    <button class=levelTwo_button onclick="loadSnakeGames();">Ongoing games</button>
+    <button class=levelOne_button onclick="setScenario('game_lobby');">New Game</button> <!-- change class name -->
+    <button class=levelTwo_button onclick="loadSnakeGames();">Ongoing games</button> <!-- change class name -->
   </div>
 
   <div id="lst:game_list" class = w100>
@@ -111,9 +111,9 @@
   </div>
 
   <div id="lst:game_lobby">
-    <button class=levelOne_button onclick="create_gameBoard('levelOne');">Level One (easy)</button>
-    <button class=levelTwo_button onclick="create_gameBoard('levelTwo');">Level Two (medium)</button>
-    <button class=levelThree_button onclick="create_gameBoard('levelThree');">Level Three (hard)</button>
+    <button class=levelOne_button onclick="create_gameBoard('levelOne', null);">Level One (easy)</button>
+    <button class=levelTwo_button onclick="create_gameBoard('levelTwo', null);">Level Two (medium)</button>
+    <button class=levelThree_button onclick="create_gameBoard('levelThree', null);">Level Three (hard)</button>
   </div> 
 
   <div id="gameLobby-manual-overlay" class='game-overlay' style="overflow: scroll; font-size: medium; height: 75%;">

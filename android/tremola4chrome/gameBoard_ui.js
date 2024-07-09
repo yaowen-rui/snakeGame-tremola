@@ -173,9 +173,25 @@ function show_game_history() {//in game lobby
     document.getElementById("gameLobby-history-overlay").style.display = 'initial';
     document.getElementById("overlay-bg").style.display = 'initial';
     overlayIsActive = true;
-    //TODO: get data from game play and update table
+
     var data = getGameHistory();
-    //gameID, time, winner, snake length, level number, partner, game status
+    var tableBody = document.getElementById('historyTableBody')
+    tableBody.innerHTML='';
+
+    data.forEach((item, index) => {
+        const row = document.createElement('tr');
+        if (index === 0) {
+            row.classList.add('active-row');
+        }
+        row.innerHTML = `
+            <td>${item.gid}</td>
+            <td>${item.winner}</td>
+            <td>${item.winnerSnakeLength}</td>
+            <td>${item.levelNum}</td>
+            <td>${item.partner}</td>
+        `;
+        tableBody.appendChild(row);
+    });
 }
 
 function leave_curr_game() {
@@ -406,11 +422,9 @@ function displayGame(game){
     var turn = board.currentPlayer == 0 ? p0 != "Nobody" ? p0 : "You need to invite an opponent first!" : p1 != "Nobody" ? p1 : "You need to invite an opponent first!";
     console.log("Found game with ID: " + gid + " (" + id + ")!");
     var entryHTML = "<div class='w100' style='padding: 5px 5px 5px;'>";
-        entryHTML += "<button class='game-list-entry' onclick='create_gameBoard(" + '"' + id + '"' + "," + gid + ");'; style='display: table;float:right;overflow: hidden; width: calc(100% - 4.4em); margin-right:10px'>"; //TODO: add style for class
-        entryHTML += "Game ID: " + gid + " | Players: " + p0 + " vs " + p1 + " | Current turn: " + turn
-        entryHTML += "<button class='game-list-entry' onclick='openGame(" + gid + ")'; style='display: table;float:right;overflow: hidden; width: calc(100% - 4.4em); margin-right:10px'>"; //TODO: add style for class
-        entryHTML += "Game ID: " + gid + " ------ Players: " + p0 + " vs " + p1 + " ------ Current turn: " + turn
-        entryHTML += "</button></div>";
+    entryHTML += "<button class='game-list-entry' onclick='create_gameBoard(" + '"' + id + '"' + "," + gid + ");'; style='display: table;float:right;overflow: hidden; width: calc(100% - 4.4em); margin-right:10px'>"; //TODO: add style for class
+    entryHTML += "Game ID: " + gid + " ----- Players: " + p0 + " vs " + p1 + " ----- Current turn: " + turn
+    entryHTML += "</button></div>";
 
     document.getElementById('lst:game_list').innerHTML += entryHTML;
 }

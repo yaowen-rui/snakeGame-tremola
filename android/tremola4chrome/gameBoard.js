@@ -3,6 +3,7 @@
 "use strict";
 
 var curr_gameBoard;
+var displayedFinish = false;
 
 const GAME_FLAG = {
     UNMATCHED: 'no_partner_yet',
@@ -27,16 +28,16 @@ function processTurn(position, size, gid) {
     var board = tremola.game_board[gid];
     if(board.currentPlayer == 0){
         if(!(board.player0 == tremola.id)){
-            console.log("It's not your turn currently!");
+            alert("It's not your turn currently!");
             return;
         }
     }
     else if(!(board.player1 == tremola.id)){
-        console.log("It's not your turn currently!");
+        alert("It's not your turn currently!");
         return;
     }
     if(position == -1){
-        console.log("You need to select a cell first!");
+        alert("You need to select a cell first!");
         return;
     }
     var snake = board.currentPlayer == 0 ? board.snake0 : board.snake1;
@@ -51,31 +52,27 @@ function processTurn(position, size, gid) {
         };
         snakeSendToBackend(data);
     }
-
-    // If no more option are available, do sth
-    if(!checkIfValidTurnAvailable(position, size, gid)){
-        console.log("You have no more moves left!");
-        finishGame(gid);
-        alert("Game is over!");
-    }
 }
 
 // Checks if position is valid
 function validPosition(position, size, currentSnake, gid){
     var board = tremola.game_board[gid];
+
+    // Checks if the cell is already part of the opponents snake (must be checked first in case they were first)
+    var opponentSnake = board.currentPlayer == 0 ? board.snake1 : board.snake0;
+    if(opponentSnake.includes(position)){
+        alert("Clicked cell already part of opponent snake!");
+        return false;
+    }
+
     // First cell
     if(currentSnake.length == 0){
         board.flags = GAME_FLAG.ONGOING // First time someone sets their head, set flag from "matched" to "ongoing" at latest now
         return true;
     }
-    // Checks if the cell is already part of the snake
+    // Checks if the cell is already part of the own snake
     if(currentSnake.includes(position)){
-        console.log("Clicked cell already part of snake!");
-        return false;
-    }
-    var opponentSnake = board.currentPlayer == 0 ? board.snake1 : board.snake0;
-    if(opponentSnake.includes(position)){
-        console.log("Clicked cell already part of opponent snake!");
+        alert("Clicked cell already part of own snake!");
         return false;
     }
 
@@ -93,22 +90,46 @@ function validPosition(position, size, currentSnake, gid){
         currentY == headY + 1 && currentX == headX){  // y + 1
         return true;
     }
-    console.log("Current position not adjacent to head!");
+    alert("Current position not adjacent to head!");
     return false;
 }
 
 // Checks if there are any available cells left to extend the snake to
-function checkIfValidTurnAvailable(position, size, gid){
+function checkIfValidTurnAvailable(gid){
+    console.log("Checking if there are valid turns left...");
     var board = tremola.game_board[gid];
-    var head = position;
+    var size = Number(board.size);
+    var head0 = Number(board.snakeHead0);
     var markedCells = board.snake0.concat(board.snake1);
-    if((markedCells.includes(head - 1) || head % size == 0) &&                   // x - 1 and if cell at left wall
-        (markedCells.includes(head + 1) || head % size == size - 1) &&           // x + 1 and if cell at right wall
-        (markedCells.includes(head - size) || head - size < 0) &&                // y - 1 and if cell at top wall
-        (markedCells.includes(head + size) || head + size > size*size - 1)){     // y + 1 and if cell at bottom wall
-        return false;
+    var lost0 = false;
+    if((markedCells.includes(head0 - 1) || head0 % size == 0) &&                   // x - 1 and if cell at left wall
+        (markedCells.includes(head0 + 1) || head0 % size == size - 1) &&           // x + 1 and if cell at right wall
+        (markedCells.includes(head0 - size) || head0 - size < 0) &&                // y - 1 and if cell at top wall
+        (markedCells.includes(head0 + size) || head0 + size > size*size - 1)){     // y + 1 and if cell at bottom wall
+        lost0 = true;
     }
-    return true;
+    var head1 = Number(board.snakeHead1);
+    var lost1 = false;
+    if((markedCells.includes(head1 - 1) || head1 % size == 0) &&                   // x - 1 and if cell at left wall
+        (markedCells.includes(head1 + 1) || head1 % size == size - 1) &&           // x + 1 and if cell at right wall
+        (markedCells.includes(head1 - size) || head1 - size < 0) &&                // y - 1 and if cell at top wall
+        (markedCells.includes(head1 + size) || head1 + size > size*size - 1)){     // y + 1 and if cell at bottom wall
+        lost1 = true;
+    }
+    var p0 = board.player0 != null ? tremola.contacts[board.player0].alias : "Nobody";
+    var p1 = board.player1 != null ? tremola.contacts[board.player1].alias : "Nobody";
+    if(lost0 && lost1){
+        alert("Both players have no moves left, it's a draw!")
+        finishGame(gid, "draw");
+    }
+    else if(lost0){
+        alert("Player " + p0 + " has no more moves left, " + p1 + " has won the game!");
+        finishGame(gid, p1);
+    }
+    else if(lost1){
+        alert("Player " + p1 + " has no more moves left, " + p0 + " has won the game!");
+        finishGame(gid, p0);
+    }
 }
 
 // Sends data to the backend
@@ -127,7 +148,6 @@ function snakeNewEvent(e){
     var gid = e.public[1]
     var prev = e.public[2] != "null" ? e.public[2] : [];
     var args = (e.public[4]).split('//');
-    console.log(args)
 
     // Add new entry if new board
     if(!(gid in tremola.game_board)) {
@@ -149,7 +169,8 @@ function snakeNewEvent(e){
             "snakeHead0": -1, // Player 0 snake head
             "snake1": [], // Player 0 snake
             "snakeHead1": -1, // Player 0 snake head
-            "flags": GAME_FLAG.UNMATCHED
+            "flags": GAME_FLAG.UNMATCHED,
+            "winner": ""
         };
     }
 
@@ -179,18 +200,18 @@ function snakeNewEvent(e){
 
     if ( op == snakeOperation.SET_CELL && gid == curr_gameBoard){
         addCellToSnake(args[0], gid)
+        checkIfValidTurnAvailable(gid)
     }
 
     board.sortedOperations.add(e.header.ref, prev);
 
     board.currPrev = board.sortedOperations.get_tips();
 
-
+    
 }
 
 // Creates a new game with given size and sets own id as player 0
 function createGame(gid, size){
-    var board = tremola.game_board[gid];
     var data = {
         'gid' : gid,
         'op' : snakeOperation.GAME_CREATE,
@@ -201,13 +222,14 @@ function createGame(gid, size){
 }
 
 // Finishes a game
-function finishGame(gid){
+function finishGame(gid, winner){
     var board = tremola.game_board[gid];
     board.flags = GAME_FLAG.FINISHED
+    board.winner = winner;
     var data = {
         'gid' : gid,
         'op' : snakeOperation.GAME_FINISH,
-        'args' : "null",
+        'args' : winner,
         'prev' : board.currPrev
     };
     snakeSendToBackend(data);
@@ -238,7 +260,6 @@ function addCellToSnake(pos, gid){
         board.snakeHead1 = head;
     }
     board.currentPlayer = (board.currentPlayer + 1) % 2;
-    //console.log(snake)
      
 }
 function addPartner(gid, pid){
@@ -252,7 +273,6 @@ function applyOperation(gid, operationID){
     console.log("Apply: " + operationID);
     var board = tremola.game_board[gid];
     var currOp = board['operations'][operationID];
-
     switch (currOp.body.cmd[0]){
         case snakeOperation.GAME_CREATE: //TODO: do sth useful
             console.log("Created game!");
@@ -262,8 +282,16 @@ function applyOperation(gid, operationID){
             addCellToSnake(pos, gid)
             break;
         case snakeOperation.GAME_FINISH: //TODO: do sth useful
-            console.log("Finished game!");
-            alert("Game is already over");
+            if(!displayedFinish){
+                console.log("Finished game!");
+                if(board.winner != "draw"){
+                    alert("Game is already over, " + board.winner + " won!");
+                }
+                else{
+                    alert("Game is already over, it was a draw!");
+                }
+                displayedFinish = true;
+            }
             break;
     }
 

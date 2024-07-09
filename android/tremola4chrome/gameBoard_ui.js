@@ -16,9 +16,14 @@ function closeGameOverlay() {
     partnerInfos.forEach(id => document.getElementById(id).style.display = 'none');
 }
 
-function create_gameBoard(level) {//level:levelOne,levelTwo,levelThree
-    var gid = Math.floor(1000000*Math.random());
-    console.log("Created game with ID: " + gid);
+function create_gameBoard(level, gid) {//level:levelOne,levelTwo,levelThree
+    if(gid == null){
+        var gid = Math.floor(1000000*Math.random());
+        console.log("Created game with ID: " + gid);
+    }
+    else{
+        console.log("Loaded game with ID: " + gid);
+    }
     closeOverlay();
     closeGameOverlay();
     prev_scenario= "game_lobby";
@@ -62,8 +67,11 @@ function create_cells(id, size, gid) {
     } else {
         containerNum = 'Three';
     }
+    document.getElementById('cellContainerOne').innerHTML = '';
+    document.getElementById('cellContainerTwo').innerHTML = '';
+    document.getElementById('cellContainerThree').innerHTML = '';
+
     const container = document.getElementById('cellContainer'+containerNum);
-    container.innerHTML = ''; // Clear any existing grid items
 
     container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     container.style.gridTemplateRows = `repeat(${size}, 1fr)`;
@@ -389,9 +397,10 @@ function loadSnakeGames(){
     document.getElementById('lst:game_list').innerHTML = '';
     setScenario('game_list');
     var ownId = tremola.id;
-    console.log(tremola.contacts[myId].alias)
+    //console.log(tremola.contacts[myId].alias)
     
     for(const [key, value] of Object.entries(tremola.game_board)){
+        //console.log(value)
         if(value.players.includes(ownId)){
             displayGame(value);
         }
@@ -402,31 +411,21 @@ function loadSnakeGames(){
 function displayGame(game){
     var gid = game.key;
     var board = tremola.game_board[gid];
+    var size = board.size;
+    var id = "";
+    switch (size){
+        case '9': id = "levelOne"; break;
+        case '11': id = "levelTwo"; break;
+        case '14': id = "levelThree"; break;
+    }
     var p0 = board.player0 != null ? tremola.contacts[board.player0].alias : "Nobody";
     var p1 = board.player1 != null ? tremola.contacts[board.player1].alias : "Nobody";
     var turn = board.currentPlayer == 0 ? p0 != "Nobody" ? p0 : "You need to invite an opponent first!" : p1 != "Nobody" ? p1 : "You need to invite an opponent first!";
-    console.log("Found game with ID: " + gid + "!");
+    console.log("Found game with ID: " + gid + " (" + id + ")!");
     var entryHTML = "<div class='w100' style='padding: 5px 5px 5px;'>";
-        entryHTML += "<button class='game-list-entry' onclick='openGame(" + gid + ")'; style='display: table;float:right;overflow: hidden; width: calc(100% - 4.4em); margin-right:10px'>"; //TODO: add style for class
+        entryHTML += "<button class='game-list-entry' onclick='create_gameBoard(" + '"' + id + '"' + "," + gid + ");'; style='display: table;float:right;overflow: hidden; width: calc(100% - 4.4em); margin-right:10px'>"; //TODO: add style for class
         entryHTML += "Game ID: " + gid + " | Players: " + p0 + " vs " + p1 + " | Current turn: " + turn
         entryHTML += "</button></div>";
 
     document.getElementById('lst:game_list').innerHTML += entryHTML;
-}
-
-// Opens the ongoing game
-function openGame(gid){
-    setScenario('game_board');
-    var board = tremola.game_board[gid];
-    var size = board.size;
-    var id = "";
-    switch (size){
-        case '9': id = "levelOne_overlay"; break;
-        case '11': id = "levelTwo_overlay"; break;
-        case '14': id = "levelThree_overlay"; break;
-    }
-    console.log(id);
-    console.log(size)
-    create_cells(id, size, gid);
-
 }

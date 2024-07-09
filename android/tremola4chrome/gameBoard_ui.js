@@ -139,16 +139,7 @@ function show_my_achievement() {//in game lobby, my own achievement
     document.getElementById("overlay-bg").style.display = 'initial';
     overlayIsActive = true;
 
-    //TODO: data will be changed if we have the real data
-    var values = getMyAchievement();
-    const data = [
-        { id: 1, date: '02-07-2024', score: 12, level: 1, name: 'Sam' },
-        { id: 2, date: '02-07-2024', score: 11, level: 2, name: 'Sam' },
-        { id: 3, date: '02-07-2024', score: 12, level: 1, name: 'Sam' },
-        { id: 4, date: '02-07-2024', score: 12, level: 1, name: 'Sam' },
-        { id: 5, date: '02-07-2024', score: 12, level: 1, name: 'Sam' },
-        { id: 6, date: '02-07-2024', score: 12, level: 1, name: 'Sam' }
-    ];
+    var data = getMyAchievement();
 
     const tableBody = document.getElementById('myAchievementTableBody');
     tableBody.innerHTML='';
@@ -159,11 +150,11 @@ function show_my_achievement() {//in game lobby, my own achievement
             row.classList.add('active-row');
         }
         row.innerHTML = `
-            <td>${item.id}</td>
-            <td>${item.date}</td>
+            <td>${item.rankNum}</td>
+            <td>${item.gid}</td>
+            <td>${item.size}</td>
             <td>${item.score}</td>
-            <td>${item.level}</td>
-            <td>${item.name}</td>
+            <td>${item.partner}</td>
         `;
         tableBody.appendChild(row);
     });
@@ -175,6 +166,7 @@ function show_game_history() {//in game lobby
     document.getElementById("overlay-bg").style.display = 'initial';
     overlayIsActive = true;
     //TODO: get data from game play and update table
+    var data = getGameHistory();
     //gameID, time, winner, snake length, level number, partner, game status
 }
 

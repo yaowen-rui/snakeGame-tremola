@@ -319,25 +319,19 @@ function getFinalValues(gid) {
     var mySnakeLength = '0';
     if(tremola.game_board[gid].operations.flags.contains(snakeOperation.GAME_FINISH)) {
         var game = tremola.game_board[gid];
-        var name0 = game.player0.name;
-        var name1 = game.player1.name;
-        var size0 = game.player0.size;
-        var size1 = game.player1.size;
+        var name0 = game.player0;
+        var name1 = game.player1;
+        var score0 = game.player0.score;//TODO: didnt find the player's final scores
+        var score1 = game.player1.score;
 
-        if (size0 !== size1) {
-            var winner = size0 > size1 ? game.player0 : game.player1;
-            var partner = size0 > size1 ? game.player1 : game.player0;
-
-            winnerName = winner.name;
-            partnerName = partner.name;
-            mySnakeLength = winner.size;
-            partnerSnakeLength = partner.size;
+        if (score0 !== score1) {
+            winnerName = score0 > score1 ? game.player0 : game.player1;
         } else {
             winnerName = name0 + " and " + name1;
-            partnerName = game.player0 !== tremola.id ? name0 : name1;
-            partnerSnakeLength = game.player0 !== tremola.id ? size0 : size1;
-            mySnakeLength = game.player0 !== tremola.id ? size1 : size0;
         }
+        partnerName = game.player0 !== tremola.id ? name0 : name1;
+        partnerSnakeLength = game.player0 !== tremola.id ? score0 : score1;
+        mySnakeLength = game.player0 !== tremola.id ? score1 : score0;
     }
 
     return {
@@ -349,6 +343,48 @@ function getFinalValues(gid) {
 }
 
 function getMyAchievement() {
-    var data = {}
+    var data = []
+    var gid = ' ';
+    var size = '0';
+    var partner = ' ';
+    var myself = ' ';
+    var snakeLength = ' ';
+    for( const [key, value] of Object.entries(tremola.game_board)) {
+        var game =value;
+        if(game.operations.contains(GAME_FLAG.FINISHED)) {
+           gid = game.key;
+           size = game.size;//game_board size
+           partner = game.player0 === tremola.id? game.player1: game.player0;
+           myself = game.player0 === tremola.id? game.player0: game.player1;
+           snakeLength = myself.score;
+
+           data.push({
+               gid: gid,
+               size: size,
+               score: snakeLength,
+               partner: partner
+            });
+        }
+    }
+    data.sort((a,b) => b.score-a.score);
+    data.forEach((game, index) => {
+        game.rankNum = index + 1;
+    });
+}
+
+function getGameHistory() {
+    var data = []
+    var gid = ''
+    var time = ''
+    var winner = ''
+    var winnerSnakeLength = '0'
+    var levelNum = '0'
+    var partner = ''
+    for( const [key, value] of Object.entries(tremola.game_board)) {
+        var game = value;
+        gid = game.key
+        //TODO
+
+    }
 
 }

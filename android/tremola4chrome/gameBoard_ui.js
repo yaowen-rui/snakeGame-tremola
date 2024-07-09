@@ -133,13 +133,14 @@ function show_game_manual() { //in game lobby
     overlayIsActive = true;
 }
 
-function show_my_achievement() {//in game lobby
+function show_my_achievement() {//in game lobby, my own achievement
     closeOverlay();
     document.getElementById("gameLobby-achievement-overlay").style.display = 'initial';
     document.getElementById("overlay-bg").style.display = 'initial';
     overlayIsActive = true;
 
     //TODO: data will be changed if we have the real data
+    var values = getMyAchievement();
     const data = [
         { id: 1, date: '02-07-2024', score: 12, level: 1, name: 'Sam' },
         { id: 2, date: '02-07-2024', score: 11, level: 2, name: 'Sam' },
@@ -281,12 +282,12 @@ function btn_invite_decline(bid) {
     launch_snackbar("Invitation declined")
 }
 
-function gameOver_show_result() { //pop up when game terminated
+function gameOver_show_result(gid) { //pop up when game terminated
     closeOverlay();
     document.getElementById("gameBoard_gameOver_overlay").style.display = 'initial';
     document.getElementById("overlay-bg").style.display = 'initial';
 
-    const finalValues = getFinalValues();
+    const finalValues = getFinalValues(gid);
 
     document.getElementById('winner_name').textContent = finalValues.winner_name;
     document.getElementById('partner_name').textContent = finalValues.partner_name;
@@ -311,7 +312,7 @@ function show_all_screenshots() { //in game lobby
         modal.style.display = "none";
     }
 
-    // When the user clicks anywhere outside of the modal, close it
+    // When the user clicks anywhere outside the modal, close it
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
@@ -337,18 +338,11 @@ function showDeleteContextMenu(e, img) {
     }
 }
 
-function take_screenshot() { //in game board
+async function take_screenshot() { //in game board
     //TODO: screenshot can not be saved permanently now
     closeOverlay();
-    html2canvas(document.getElementById('div:game_board'), {useCORS: true, allowTaint: false}).then(function(canvas) {
-        var imgURL = canvas.toDataURL("images/png");//base64URL
-
-        var blob = dataURLtoBlob(imgURL)
-        var imgID = 'sImg_' + Date.now();
-        var file = blobToFile(blob,imgID);
-        var formData = new FormData();
-        formData.append("screenshotFile", file, imgID);
-        sendScreenshotsToBackend(formData);
+    html2canvas(document.getElementById('div:game_board'), {useCORS: true, allowTaint: false}).then(async function (canvas) {
+        var imgURL = canvas.toDataURL("images/png");//base64 string
 
         //screenshot will be displayed in gameBoard-screenshot-overlay
         var img = document.createElement('img');
@@ -357,7 +351,7 @@ function take_screenshot() { //in game board
         img.classList.add('screenshot-thumbnail');
         document.getElementById('screenshot').appendChild(img);
         //add click event to the img to open modal
-        img.addEventListener('click', function() {
+        img.addEventListener('click', function () {
             document.getElementById('gameLobby-screenshots-overlay').style.display = 'none';
             var modal = document.getElementById('myModal');
             var modalImg = document.getElementById('modalImg');
@@ -365,7 +359,7 @@ function take_screenshot() { //in game board
             modalImg.src = imgURL;
         })
         //add right-click event to img to show delete context menu
-        img.addEventListener('contextmenu', function(e) {
+        img.addEventListener('contextmenu', function (e) {
             e.preventDefault();
             console.log('img right-clicked');
             showDeleteContextMenu(e, img);
@@ -373,7 +367,6 @@ function take_screenshot() { //in game board
     });
     launch_snackbar("screenshot took!")
 }
-
 
 // Loads all snake games that the current user is in
 function loadSnakeGames(){
@@ -399,7 +392,7 @@ function displayGame(game){
     console.log("Found game with ID: " + gid + "!");
     var entryHTML = "<div class='w100' style='padding: 5px 5px 5px;'>";
         entryHTML += "<button class='game-list-entry' onclick='openGame(" + gid + ")'; style='display: table;float:right;overflow: hidden; width: calc(100% - 4.4em); margin-right:10px'>"; //TODO: add style for class
-        entryHTML += "Game ID: " + gid + " | Players: " + p0 + " vs " + p1 + " | Current turn: " + turn
+        entryHTML += "Game ID: " + gid + " ------ Players: " + p0 + " vs " + p1 + " ------ Current turn: " + turn
         entryHTML += "</button></div>";
 
     document.getElementById('lst:game_list').innerHTML += entryHTML;

@@ -60,7 +60,8 @@ function processTurn(position, size, gid) {
     if(!checkIfValidTurnAvailable(size)){
         console.log("You have no more moves left!");
         finishGame(gid);
-        alert("Game is over!");
+        gameOver_show_result(gid);
+        console.log("Game is over!");
     }
 }
 
@@ -306,20 +307,38 @@ function leave_game(bid) {
 
 }
 
-function unmatch_partner(bid) {
+function unmatch_partner(curr_gameBoard) {
 
 }
 
-function restart_game() {//Invite partner to play again, if accepts, restart the game, if declines, go back to lobby
+function getFinalValues(gid) {
 
-}
+    var winnerName = ' ';
+    var partnerName = ' ';
+    var partnerSnakeLength = '0';
+    var mySnakeLength = '0';
+    if(tremola.game_board[gid].operations.flags.contains(snakeOperation.GAME_FINISH)) {
+        var game = tremola.game_board[gid];
+        var name0 = game.player0.name;
+        var name1 = game.player1.name;
+        var size0 = game.player0.size;
+        var size1 = game.player1.size;
 
-function getFinalValues() {
-    //TODO : the real values should be changed later
-    const winnerName = 'lisa';
-    const partnerName = 'lisa';
-    const partnerSnakeLength = 15+'';
-    const mySnakeLength = 8+'';
+        if (size0 !== size1) {
+            var winner = size0 > size1 ? game.player0 : game.player1;
+            var partner = size0 > size1 ? game.player1 : game.player0;
+
+            winnerName = winner.name;
+            partnerName = partner.name;
+            mySnakeLength = winner.size;
+            partnerSnakeLength = partner.size;
+        } else {
+            winnerName = name0 + " and " + name1;
+            partnerName = game.player0 !== tremola.id ? name0 : name1;
+            partnerSnakeLength = game.player0 !== tremola.id ? size0 : size1;
+            mySnakeLength = game.player0 !== tremola.id ? size1 : size0;
+        }
+    }
 
     return {
         winner_name: winnerName,
@@ -329,38 +348,7 @@ function getFinalValues() {
     };
 }
 
-//convert screenshot img-base64 to blob
-function dataURLtoBlob(dataUrl) {
-    var arr = dataUrl.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new Blob([u8arr], {
-        type: mime
-    });
-}
+function getMyAchievement() {
+    var data = {}
 
-//convert blob to file
-function blobToFile(theBlob, fileName) {
-    theBlob.lastModifiedDate = new Date();
-    theBlob.name = fileName;
-    return theBlob;
-}
-
-function sendScreenshotsToBackend(data) {
-    //TODO
-    backend("lobby " + btoa(data) + " screenshot");//btoa():encode; atob():decode
-}
-
-
-function deleteScreenshot() {
-
-}
-
-function sendHistoryToBackend(data) {
-    backend("lobby " + btoa(data) + " history");
 }

@@ -878,8 +878,6 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
         b2f_new_in_order_event(e)
         // console.log(e)
     } else if (cmdStr[0] == 'snake'){
-        //TODO:
-    } else if(cmdStr[0] == 'lobby') {
         var e = {
             'header': {
                 'tst': Date.now(),
@@ -887,7 +885,7 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
                 'fid': myId
             },
             'confid': {},
-            'public': ["LOB", cmdStr[1], prev, cmdStr[3]].concat(args)
+            'public': ["SNK", cmdStr[1], prev, cmdStr[3]].concat(args)
         }
         console.log('SNK e=', JSON.stringify(e))
         b2f_new_in_order_event(e)
@@ -906,7 +904,6 @@ function resetTremola() { // wipes browser-side content
         "settings": get_default_settings(),
         "board": {},
         "game_board": {},
-        "game_lobby" : {} //store the screenshots , game history , achievement
     }
     var n = recps2nm([myId])
 
@@ -1106,6 +1103,10 @@ function b2f_new_in_order_event(e) {
             console.log("New snake event");
             snakeNewEvent(e);
             break;
+        case "LOB":
+            console.log("new lobby event");
+            gameLobbyNewEvent(e);
+            break;
         default:
             return
     }
@@ -1246,8 +1247,6 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
 
         } else if (e.public[0] == "SNK") {
             b2f_new_in_order_event(e);
-        } else if (e.public[0] === 'LOB') {
-            b2f_new_voice()
         }
         persist();
         must_redraw = true;

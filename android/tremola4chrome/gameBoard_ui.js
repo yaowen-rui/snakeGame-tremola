@@ -5,6 +5,7 @@
 var cells = []
 var clickedCell = -1
 var cellColors = {}
+var currentGid = -1;
 
 function closeGameOverlay() {
     // Hide all game overlays and status information
@@ -24,6 +25,7 @@ function create_gameBoard(level, gid) {//level:levelOne,levelTwo,levelThree
     else{
         console.log("Loaded game with ID: " + gid);
     }
+    currentGid = gid;
     closeOverlay();
     closeGameOverlay();
     prev_scenario= "game_lobby";
@@ -70,6 +72,15 @@ function create_cells(id, size, gid) {
     document.getElementById('cellContainerOne').innerHTML = '';
     document.getElementById('cellContainerTwo').innerHTML = '';
     document.getElementById('cellContainerThree').innerHTML = '';
+
+    document.getElementById("partnerNameLevelOne").textContent = "Nobody";
+    document.getElementById("partnerNameLevelTwo").textContent = "Nobody";
+    document.getElementById("partnerNameLevelThree").textContent = "Nobody";
+    
+    
+    document.getElementById("partnerColorLevelOne").textContent = "None";
+    document.getElementById("partnerColorLevelTwo").textContent = "None";
+    document.getElementById("partnerColorLevelThree").textContent = "None";
 
     const container = document.getElementById('cellContainer'+containerNum);
 
@@ -427,4 +438,37 @@ function displayGame(game){
     entryHTML += "</button></div>";
 
     document.getElementById('lst:game_list').innerHTML += entryHTML;
+}
+
+// Opens the menu to change the snake color
+function changeColorMenu() {
+    closeOverlay()
+    document.getElementById("div:change_color_menu").style.display = 'initial';
+    document.getElementById("overlay-bg").style.display = 'initial';
+
+    var availableColors = ["Red", "Green", "Yellow", "Blue", "Pink", "BlueViolet", "Brown"]
+	document.getElementById("change_color_content").innerHTML = ''
+    document.getElementById("change_color_content").style.gridTemplateRows = `repeat(${availableColors.length}, 1fr)`;
+	for (const c of availableColors) {
+        createClickableColorCell(c)
+    }
+}
+
+// Creates a new entry in the color change table for the defined color
+function createClickableColorCell(id) {
+    if (document.getElementById("div:change_color_menu").style.display == 'none')
+        return
+    const cell = document.createElement("div");
+    cell.classList.add('color-cell');
+    cell.style.backgroundColor = id;
+    cell.style.cursor = "pointer";
+    cell.onclick = () => {
+        if(id == "BlueViolet"){
+            changeColorLog(currentGid, tremola.id, "Violet");
+        }
+        else{
+            changeColorLog(currentGid, tremola.id, id);
+        }
+    }
+    document.getElementById("change_color_content").appendChild(cell);
 }

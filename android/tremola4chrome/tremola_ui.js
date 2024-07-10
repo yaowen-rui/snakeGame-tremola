@@ -90,7 +90,8 @@ var scenarioMenu = {
         ['Leave', 'leave_curr_game'],
         ['Play Again', 'play_again_with_curr_partner'],
         ['Take screenshot', 'take_screenshot'],
-        ['receive inv', 'receive_invitation_popUp']], //add menu item: receive inv just for testing view
+        ['receive inv', 'receive_invitation_popUp'], //add menu item: receive inv just for testing view
+        ['change color', 'changeColorMenu']], 
 
     'game_main': [['Achievement', 'show_my_achievement'],
         ['Game history', 'show_game_history'],
@@ -304,6 +305,7 @@ function closeOverlay() {
 
     //game board overlays
     document.getElementById('div:gameBoard_invite_menu').style.display = 'none'
+    document.getElementById('div:change_color_menu').style.display = 'none'
     document.getElementById('gameBoard_gameOver_overlay').style.display = 'none'
 
     overlayIsActive = false;

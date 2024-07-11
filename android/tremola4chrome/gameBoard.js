@@ -394,10 +394,10 @@ function addCellToSnake(pos, gid){
     var head = board.currentPlayer == 0 ? board.snakeHead0 : board.snakeHead1;
     var headColor = board.currentPlayer == 0 ? board.colorHead0 : board.colorHead1;
     console.log("Set cell at (" + x + "," + y + ")!");
-    colorCell(pos, headColor, false);
     if(head != -1){
         colorCell(head, snakeColor, false)
     }
+    colorCell(pos, headColor, false);
     snake.push(Number(pos));
     head = pos
     if(board.currentPlayer == 0){

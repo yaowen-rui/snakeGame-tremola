@@ -358,21 +358,6 @@ function inviteUserToGame(gid, userID) {//TODO
     snakeSendToBackend(data);
 }
 
-function gameInviteAccept(bid, prev) {//TODO
-
-}
-
-function gameInviteDecline(bid, prev) {//TODO
-
-}
-
-function leave_game(bid) {
-
-}
-
-function unmatch_partner(bid) {
-
-}
 
 function getFinalValues(gid) {
 

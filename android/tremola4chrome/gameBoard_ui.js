@@ -207,7 +207,7 @@ function leave_curr_game() {
     // if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.ONGOING)) {
         const userConfirmed = confirm("Game is ongoing, Do you really want to leave?")
         if(userConfirmed) {
-            //leave_game(curr_gameBoard)
+            //leave_game(curr_gameBoard)//TODO
             setScenario('game_lobby')
         } else {
             launch_snackbar("You chose to stay in the game :)");
@@ -221,7 +221,7 @@ function unmatch_curr_partner() {
     if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.MATCHED)) {
         const userConfirmed = confirm("Do you really want to unmatch your current partner?")
         if(userConfirmed) {
-            unmatch_partner(curr_gameBoard);
+            unmatch_partner(curr_gameBoard);//TODO
         } else {
             launch_snackbar("You chose to keep the current partner :)");
         }
@@ -231,7 +231,7 @@ function unmatch_curr_partner() {
 function play_again_with_curr_partner() {
     closeOverlay();
     if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.FINISHED)) {
-        restart_game();
+        restart_game();//TODO
     }
     launch_snackbar("cannot restart the game!")
 }

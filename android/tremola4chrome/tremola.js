@@ -1103,10 +1103,6 @@ function b2f_new_in_order_event(e) {
             console.log("New snake event");
             snakeNewEvent(e);
             break;
-        case "LOB":
-            console.log("new lobby event");
-            gameLobbyNewEvent(e);
-            break;
         default:
             return
     }

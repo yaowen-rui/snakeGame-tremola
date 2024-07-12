@@ -164,10 +164,10 @@ function snakeNewEvent(e){
             "player1": null, // Player 1 ID
             "colorSnake0": "DeepSkyBlue", // Colors for now predefined, chosen randomly, will change for sure
             "colorHead0": "DarkBlue",
-            "colorSnake1": "OrangeRed",
-            "colorHead1": "DarkRed",
+            "colorSnake1": null,
+            "colorHead1": null,
             "colorScheme0": "Blue",
-            "colorScheme1": "Red",
+            "colorScheme1": null,
             "snake0": [], // Player 0 snake
             "snakeHead0": -1, // Player 0 snake head
             "snake1": [], // Player 0 snake
@@ -380,7 +380,7 @@ function recolorCells(gid, pid){
         document.getElementById("partnerColorLevel" + id).textContent = board.colorScheme1;
     }
     else{
-        document.getElementById("partnerColorLevel" + id).textContent = "Red";
+        document.getElementById("partnerColorLevel" + id).textContent = "None";
     }
 }
 
@@ -418,6 +418,10 @@ function addPartner(gid, pid){
     board.flags = GAME_FLAG.MATCHED
     var size = board.size;
     var id = "";
+
+    var color = board.colorScheme0 == "Red" ? "Blue" : "Red";
+    changeColorLog(gid, pid, color);
+
     switch (size){
         case '9': id = "One"; break;
         case '11': id = "Two"; break;

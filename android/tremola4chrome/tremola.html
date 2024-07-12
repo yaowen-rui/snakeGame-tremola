@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="tremola.css" media="screen" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <script type="text/javascript" charset="UTF-8" src="scuttlesort.js"></script>
   <script type="text/javascript" charset="UTF-8" src="tremola.js"></script>
   <script type="text/javascript" charset="UTF-8" src="tremola_settings.js"></script>
@@ -199,30 +200,30 @@
 
   <div id="div:game_board" >
     <div id='levelOne_overlay' class="game-board">
-      <div id='statusInfoOne' class="status-info" style="display: none;">Movement information: <span id="statusInfo_levelOne">0</span></div>
+      <div id='statusInfoOne' class="status-info" style="display: none;">Turn: <button class="back-turn" onclick="goBackTurn()" ><i class="fa-solid fa-arrow-left"></i></button><span id="statusInfo_levelOne">0</span><button class="forward-turn" onclick="goForwardTurn()" ><i class="fa-solid fa-arrow-right"></i></button></div>
       <div id='partnerInfoOne' class="partner-info" style="display: none;">
-        Partner: <span id="partnerNameLevelOne">Lily</span>,
-        Color: <span id="partnerColorLevelOne">Black</span>
+        Partner: <span id="partnerNameLevelOne">Nobody</span>,
+        Color: <span id="partnerColorLevelOne">None</span>
       </div>
       <div id='cellContainerOne' class="cell-container" ></div>
       <div id='sendingButtonOne' class="send-button"></div>
     </div>
   
     <div id='levelTwo_overlay'  class="game-board">
-      <div id='statusInfoTwo' class="status-info" style="display: none;">Movement information: <span id="statusInfo_levelTwo">0</span></div>
+      <div id='statusInfoTwo' class="status-info" style="display: none;">Turn: <button class="back-turn" onclick="goBackTurn()" ><i class="fa-solid fa-arrow-left"></i></button><span id="statusInfo_levelTwo">0</span><button class="forward-turn" onclick="goForwardTurn()" ><i class="fa-solid fa-arrow-right"></i></button></div>
       <div id='partnerInfoTwo' class="partner-info" style="display: none;">
-        Partner: <span id="partnerNameLevelTwo">Sam</span>,
-        Color: <span id="partnerColorLevelTwo">Green</span>
+        Partner: <span id="partnerNameLevelTwo">Nobody</span>,
+        Color: <span id="partnerColorLevelTwo">None</span>
       </div>
       <div id='cellContainerTwo' class="cell-container" ></div>
       <div id='sendingButtonTwo' class="send-button"></div>
     </div>
   
     <div id='levelThree_overlay'  class="game-board">
-      <div id='statusInfoThree' class="status-info" style="display: none;">Movement information: <span id="statusInfo_levelThree">0</span></div>
+      <div id='statusInfoThree' class="status-info" style="display: none;">Turn: <button class="back-turn" onclick="goBackTurn()" ><i class="fa-solid fa-arrow-left"></i></button><span id="statusInfo_levelThree">0</span><button class="forward-turn" onclick="goForwardTurn()" ><i class="fa-solid fa-arrow-right"></i></button></div>
       <div id='partnerInfoThree' class="partner-info" style="display: none;">
-        Partner: <span id="partnerNameLevelThree">Alice</span>,
-        Color: <span id="partnerColorLevelThree">Yellow</span>
+        Partner: <span id="partnerNameLevelThree">Nobody</span>,
+        Color: <span id="partnerColorLevelThree">Red</span>
       </div>
       <div id='cellContainerThree' class="cell-container" ></div>
       <div id='sendingButtonThree' class="send-button"></div>
@@ -233,6 +234,13 @@
         <b>Invite Users</b>
       </div>
       <div id="gameBoard_menu_invite_content" style="overflow-x: hidden;overflow-y: scroll;max-height: 70vh;"></div>
+    </div>
+
+    <div id="div:change_color_menu" class="qr-overlay">
+      <div id="change_color_menuhdr">
+        <b>Change Color</b>
+      </div>
+      <div id="change_color_content" style="overflow-x: hidden;overflow-y: scroll;max-height: 70vh;"></div>
     </div>
 
     <!--Pop up when user received the invitation-->

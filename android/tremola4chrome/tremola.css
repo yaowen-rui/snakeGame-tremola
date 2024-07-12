@@ -312,6 +312,24 @@ background-color: #bb176c;
   align-items: center;
   background-color: white; /* Default background color */
 }
+.color-cell{
+  width: 100%;
+  align-items: center;
+  padding-top: 10%;
+  position: relative;
+}
+.back-turn{
+  outline: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+.forward-turn{
+  outline: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
 .status-info{
   font-family: "American Typewriter";
   color: #0e8a05;

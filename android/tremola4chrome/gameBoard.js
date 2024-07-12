@@ -41,6 +41,19 @@ function processTurn(position, size, gid) {
         alert("You need to select a cell first!");
         return;
     }
+    var size = board.size;
+    var id = "";
+    switch (size){
+        case '9': id = "One"; break;
+        case '11': id = "Two"; break;
+        case '14': id = "Three"; break;
+    }
+    var currentTurn = Number(document.getElementById("statusInfo_level" + id).textContent);
+    if(currentTurn != board.turnNumber){
+        alert("You can only play your turn if you're viewing the current game state!")
+        return;
+    }
+
     var snake = board.currentPlayer == 0 ? board.snake0 : board.snake1;
     console.log("Current snake: " + snake)
     // If position is valid, set cell
@@ -173,7 +186,9 @@ function snakeNewEvent(e){
             "snake1": [], // Player 0 snake
             "snakeHead1": -1, // Player 0 snake head
             "flags": GAME_FLAG.UNMATCHED,
-            "winner": ""
+            "winner": "",
+            "turns": {}, // Saves turns done during this game
+            "turnNumber": 0
         };
     }
 
@@ -206,7 +221,11 @@ function snakeNewEvent(e){
     board["operations"][e.header.ref] = p;
 
     if ( op == snakeOperation.SET_CELL && gid == curr_gameBoard){
+        board.turns[board.turnNumber + 1] = args[0];
+        board.turnNumber++;
+        console.log(board.turns);
         addCellToSnake(args[0], gid)
+        displayToTurn(gid, board.turnNumber);
         checkIfValidTurnAvailable(gid)
     }
 
@@ -410,6 +429,15 @@ function addCellToSnake(pos, gid){
     }
     board.currentPlayer = (board.currentPlayer + 1) % 2;
 
+    var size = board.size
+    var id = "";
+    switch (size){
+        case '9': id = "One"; break;
+        case '11': id = "Two"; break;
+        case '14': id = "Three"; break;
+    }
+    document.getElementById("statusInfo_level" + id).textContent = board.turnNumber;
+
 }
 function addPartner(gid, pid){
     var board = tremola.game_board[gid];
@@ -441,7 +469,9 @@ function applyOperation(gid, operationID){
             break;
         case snakeOperation.SET_CELL:
             var pos = currOp.body.cmd[1];
-            addCellToSnake(pos, gid)
+            addCellToSnake(pos, gid);
+            board.turns[board.turnNumber + 1] = pos;
+            board.turnNumber++;
             break;
         case snakeOperation.GAME_FINISH:
             if(!displayedFinish){
@@ -468,6 +498,7 @@ function loadCurrentGameState(gid, size){
     var board = tremola.game_board[gid];
     curr_gameBoard = gid
     if(!(board == undefined)){
+        board.turnNumber = 0; // Always reset because it's buggy else
         var operations = linearTimeline(board.sortedOperations);
         board.currentPlayer = 0; // needed for correct colours
         for(var i in operations){
@@ -493,7 +524,7 @@ function loadCurrentGameState(gid, size){
             document.getElementById("partnerNameLevel" + id).textContent = "Nothing";
             document.getElementById("partnerColorLevel" + id).textContent = "None";
         }
-
+        document.getElementById("statusInfo_level" + id).textContent = board.turnNumber;
     }
     // Create new game if game with given GID does not exist
     else {
@@ -641,4 +672,69 @@ function getGameHistory() {
         })
     }
     return data
+}
+
+// Displays the game one turn prior
+function goBackTurn(){
+    var board = tremola.game_board[curr_gameBoard];
+    var size = board.size;
+    var id = "";
+    switch (size){
+        case '9': id = "One"; break;
+        case '11': id = "Two"; break;
+        case '14': id = "Three"; break;
+    }
+    var currentTurn = Number(document.getElementById("statusInfo_level" + id).textContent);
+    if(currentTurn == 0){
+        alert("Already at start of game, can't go back further!");
+        return;
+    }
+    document.getElementById("statusInfo_level" + id).textContent = currentTurn - 1;
+    displayToTurn(curr_gameBoard, currentTurn - 1);
+}
+
+// Displays the game one turn after
+function goForwardTurn(){
+    var board = tremola.game_board[curr_gameBoard];
+    var size = board.size;
+    var id = "";
+    switch (size){
+        case '9': id = "One"; break;
+        case '11': id = "Two"; break;
+        case '14': id = "Three"; break;
+    }
+    var currentTurn = Number(document.getElementById("statusInfo_level" + id).textContent);
+    if(currentTurn == board.turnNumber){
+        alert("Already at end of game, can't go forward further!");
+        return;
+    }
+    document.getElementById("statusInfo_level" + id).textContent = currentTurn + 1;
+    displayToTurn(curr_gameBoard, currentTurn + 1);
+}
+
+// Display the game up to the specified turn
+function displayToTurn(gid, turnNumber){
+    var board = tremola.game_board[gid];
+    for(var i = 1; i <= turnNumber; i++){
+        if(i % 2 == 0){
+            colorCell(board.turns[i], board.colorSnake1, false);
+        }
+        else{
+            colorCell(board.turns[i], board.colorSnake0, false);
+        }
+    }
+    for(var i = turnNumber + 1; i <= board.turnNumber; i++){
+        colorCell(board.turns[i], "White", false);
+    }
+    if(turnNumber % 2 == 0 && turnNumber > 1){
+        colorCell(board.turns[turnNumber], board.colorHead1, false);
+        colorCell(board.turns[turnNumber - 1], board.colorHead0, false);
+    }
+    else if(turnNumber % 2 == 1 && turnNumber > 1){
+        colorCell(board.turns[turnNumber], board.colorHead0, false);
+        colorCell(board.turns[turnNumber - 1], board.colorHead1, false);
+    }
+    else if(turnNumber == 1){
+        colorCell(board.turns[turnNumber], board.colorHead0, false);
+    }
 }

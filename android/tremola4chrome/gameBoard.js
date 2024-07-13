@@ -204,11 +204,11 @@ function snakeNewEvent(e){
     if (e.header.ref in board.operations)
         return;
 
-    if (op == snakeOperation.INVITE){
+    if (op === snakeOperation.INVITE){
         addPartner(gid, args[0])
     }
 
-    if (op == snakeOperation.CHANGE_COLOR){
+    if (op === snakeOperation.CHANGE_COLOR){
         changeColor(gid, args[0], args[1]);
     }
     // Store operation
@@ -277,11 +277,27 @@ function interrupt_game(gid) {
         'args' : gid,
         'prev' : board.currPrev
     }
-    snakeSendToBackend(data);//TODO , seq num is unlimited , sth wrong
+    snakeSendToBackend(data);
 }
 
-function replay_game() {
-    //TODO
+function replay_game(gid) {
+    if(gid != null) {
+        var board = tremola.game_board[gid];
+        var size = board.size;
+        var partnerId = board.player0 === tremola.id ? board.player1 : board.player0
+        var overlayId = '';
+        var new_gid;
+        overlayId = (size === 9) ? "levelOne_overlay" :
+            (size === 11) ? "levelTwo_overlay" :
+                "levelThree_overlay";
+
+        new_gid =  Math.floor(1000000*Math.random());
+        currentGid = gid
+        console.log(" replay: created new game with GID: " + gid);
+
+        create_cells(overlayId, size, new_gid)
+        inviteUserToGame(new_gid, partnerId);
+    }
 }
 
 // Creates a new entry in the log to change the color of the snake
@@ -594,7 +610,7 @@ function linearTimeline(timeline) {
 
 
 
-function inviteUserToGame(gid, userID) {//TODO
+function inviteUserToGame(gid, userID) {//userID:partner's ID TODO
     var board = tremola.game_board[gid]
     var data = {
         'gid' : gid,

@@ -218,7 +218,7 @@ function leave_curr_game() {
 
 function unmatch_curr_partner() {
     closeOverlay();
-    if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.MATCHED)) {
+    if (tremola.game_board[curr_gameBoard].flags === GAME_FLAG.MATCHED) {
         const userConfirmed = confirm("Do you really want to unmatch your current partner?")
         if(userConfirmed) {
             unmatch_partner(curr_gameBoard);//TODO
@@ -230,13 +230,13 @@ function unmatch_curr_partner() {
 
 function play_again_with_curr_partner() {
     closeOverlay();
-    if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.FINISHED)) {
-        replay_game();//TODO
+    if (tremola.game_board[curr_gameBoard].flags === GAME_FLAG.FINISHED) {
+        replay_game(curr_gameBoard);
     }
-    launch_snackbar("cannot restart the game!")
+    launch_snackbar("You cannot replay the game when current game is not finished!")
 }
 
-function invite_partner( pid, gid) {
+function invite_partner( pid, gid) { //pid: partner's id
     closeOverlay()
     inviteUserToGame( gid, pid)
     launch_snackbar("Invited " + tremola.contacts[pid].alias)

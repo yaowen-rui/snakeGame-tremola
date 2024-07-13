@@ -207,24 +207,13 @@ function show_game_history() {//in game lobby
 
 function leave_curr_game() {
     closeOverlay();
-    // if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.FINISHED)) {
-    //     setScenario('game_lobby');
-    //     return
-    // }
-    // if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.UNMATCHED)) {
-    //     setScenario('game_lobby');
-    //     return
-    // }
-    // if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.ONGOING)) {
-        const userConfirmed = confirm("Game is ongoing, Do you really want to leave?")
-        if(userConfirmed) {
-            //leave_game(curr_gameBoard)//TODO
-            setScenario('game_lobby')
-        } else {
-            launch_snackbar("You chose to stay in the game :)");
-        }
-    //}
-
+    const userConfirmed = confirm("Game is ongoing, Do you really want to leave?")
+    if (userConfirmed) {
+        interrupt_game(curr_gameBoard);
+        setScenario('game_lobby')
+    } else {
+        launch_snackbar("You chose to stay in the game :)");
+    }
 }
 
 function unmatch_curr_partner() {
@@ -242,7 +231,7 @@ function unmatch_curr_partner() {
 function play_again_with_curr_partner() {
     closeOverlay();
     if (tremola.game_board[curr_gameBoard].flags.includes(GAME_FLAG.FINISHED)) {
-        restart_game();//TODO
+        replay_game();//TODO
     }
     launch_snackbar("cannot restart the game!")
 }
@@ -278,7 +267,7 @@ function partner_invite_create_entry(id) {
 	document.getElementById("gameBoard_menu_invite_content").innerHTML += invHTML
 }
 
-function receive_invitation_popUp() {
+/*function receive_invitation_popUp() {
     closeOverlay();
     //TODO: sender's info should be displayed in the invitation
     var bid = 100101;
@@ -298,22 +287,22 @@ function receive_invitation_popUp() {
     invHTML += "</div></div></div>"
 
     document.getElementById("received_invitations").innerHTML += invHTML
-}
+}*/
 
-function btn_invite_accept(bid) {
-    // gameInviteAccept(bid, tremola.game_board[bid].pendingInvitations[myId])
-    // delete tremola.game_board[bid].pendingInvitations[myId]
-    document.getElementById('receive_invitation_overlay').style.display = 'none'
-    launch_snackbar("Invitation accepted")
-
-}
-
-function btn_invite_decline(bid) {
-    // gameInviteDecline(bid, tremola.game_board[bid].pendingInvitations[myId])
-    // delete tremola.game_board[bid].pendingInvitations[myId]
-    document.getElementById('receive_invitation_overlay').style.display = 'none'
-    launch_snackbar("Invitation declined")
-}
+// function btn_invite_accept(bid) {
+//     // gameInviteAccept(bid, tremola.game_board[bid].pendingInvitations[myId])
+//     // delete tremola.game_board[bid].pendingInvitations[myId]
+//     document.getElementById('receive_invitation_overlay').style.display = 'none'
+//     launch_snackbar("Invitation accepted")
+//
+// }
+//
+// function btn_invite_decline(bid) {
+//     // gameInviteDecline(bid, tremola.game_board[bid].pendingInvitations[myId])
+//     // delete tremola.game_board[bid].pendingInvitations[myId]
+//     document.getElementById('receive_invitation_overlay').style.display = 'none'
+//     launch_snackbar("Invitation declined")
+// }
 
 function gameOver_show_result(gid) { //pop up when game terminated
     closeOverlay();
@@ -321,11 +310,15 @@ function gameOver_show_result(gid) { //pop up when game terminated
     document.getElementById("overlay-bg").style.display = 'initial';
 
     const finalValues = getFinalValues(gid);
+    if (finalValues.winner_name !== "interrupted") {
+        document.getElementById('winner_name').textContent = finalValues.winner_name;
+        document.getElementById('partner_name').textContent = finalValues.partner_name;
+        document.getElementById('partner_snake_length').textContent = finalValues.partner_snake_length;
+        document.getElementById('my_snake_length').textContent = finalValues.my_snake_length;
+    } else {
+        document.getElementById("gameOver_table").style.display = "none";
+    }
 
-    document.getElementById('winner_name').textContent = finalValues.winner_name;
-    document.getElementById('partner_name').textContent = finalValues.partner_name;
-    document.getElementById('partner_snake_length').textContent = finalValues.partner_snake_length;
-    document.getElementById('my_snake_length').textContent = finalValues.my_snake_length;
 }
 
 function show_all_screenshots() { //in game lobby
@@ -380,7 +373,6 @@ async function take_screenshot() { //in game board
         //screenshot will be displayed in gameBoard-screenshot-overlay
         var img = document.createElement('img');
         img.src = imgURL;
-        img.id = imgID;
         img.classList.add('screenshot-thumbnail');
         document.getElementById('screenshot').appendChild(img);
         //add click event to the img to open modal
@@ -437,6 +429,9 @@ function displayGame(game){
     entryHTML += "Game ID: " + gid + " ----- Players: " + p0 + " vs " + p1 + " ----- Current turn: " + turn
     entryHTML += "</button></div>";
 
+    if (p1 == "Nobody" && p1 == "Nobody") {
+        entryHTML = "";
+    }
     document.getElementById('lst:game_list').innerHTML += entryHTML;
 }
 

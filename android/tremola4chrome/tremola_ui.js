@@ -90,7 +90,6 @@ var scenarioMenu = {
         ['Leave', 'leave_curr_game'],
         ['Play Again', 'play_again_with_curr_partner'],
         ['Take screenshot', 'take_screenshot'],
-        ['receive inv', 'receive_invitation_popUp'], //add menu item: receive inv just for testing view
         ['change color', 'changeColorMenu']], 
 
     'game_main': [['Achievement', 'show_my_achievement'],

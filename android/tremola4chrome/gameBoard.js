@@ -4,12 +4,14 @@
 
 var curr_gameBoard;
 var displayedFinish = false;
+var game_interrupted = false;
 
 const GAME_FLAG = {
     UNMATCHED: 'no_partner_yet',
     MATCHED: 'partner_matched_game_not_start',
     ONGOING : 'ongoing',
     FINISHED: 'finished',
+    INTERRUPTED : 'interrupted'
 }
 
 // Defined operations
@@ -19,8 +21,8 @@ const snakeOperation = {
     SET_CELL: 'game/cell',
     CHANGE_COLOR: 'game/color',
     INVITE: 'invite',
-    INVITE_ACCEPT: 'invite/accept',
-    INVITE_DECLINE: 'invite/decline',
+    //INVITE_ACCEPT: 'invite/accept',
+    //INVITE_DECLINE: 'invite/decline',
     LEAVE: 'leave'
 }
 
@@ -209,8 +211,6 @@ function snakeNewEvent(e){
     if (op == snakeOperation.CHANGE_COLOR){
         changeColor(gid, args[0], args[1]);
     }
-
-
     // Store operation
     var body = {
         'gid': gid,
@@ -252,7 +252,6 @@ function finishGame(gid, winner){
     var board = tremola.game_board[gid];
     board.flags = GAME_FLAG.FINISHED
     board.winner = winner;
-    gameOver_show_result(gid);
     var data = {
         'gid' : gid,
         'op' : snakeOperation.GAME_FINISH,
@@ -260,6 +259,29 @@ function finishGame(gid, winner){
         'prev' : board.currPrev
     };
     snakeSendToBackend(data);
+}
+
+//leave the game midway, attention: the interrupted game, it's info will not be displayed in myAchievement and history
+// interrupted game will not be displayed on ongoing game list
+function interrupt_game(gid) {
+    var board = tremola.game_board[gid];
+    if (board.flags === GAME_FLAG.UNMATCHED) {
+        alert("You are not matched, you can go back to game lobby")
+        setScenario("game_lobby")
+    }
+    board.flags = GAME_FLAG.INTERRUPTED
+    board.winner = "interrupted";
+    var data = {
+        'gid' : gid,
+        'op' : snakeOperation.LEAVE,
+        'args' : gid,
+        'prev' : board.currPrev
+    }
+    snakeSendToBackend(data);//TODO , seq num is unlimited , sth wrong
+}
+
+function replay_game() {
+    //TODO
 }
 
 // Creates a new entry in the log to change the color of the snake
@@ -478,6 +500,7 @@ function applyOperation(gid, operationID){
                 console.log("Finished game!");
                 if(board.winner != "draw"){
                     alert("Game is already over, " + board.winner + " won!");
+                    gameOver_show_result(gid);
                 }
                 else{
                     alert("Game is already over, it was a draw!");
@@ -487,6 +510,15 @@ function applyOperation(gid, operationID){
             break;
         case snakeOperation.CHANGE_COLOR:
             changeColor(gid, currOp.body.cmd[1], currOp.body.cmd[2]);
+            break;
+        case snakeOperation.LEAVE:
+            if(!game_interrupted) {
+                alert("The game is interrupted, you left this game midway!")
+                gameOver_show_result(gid);
+                setScenario("game_lobby");
+                delete tremola.game_board[gid];
+            }
+            game_interrupted = true;
             break;
     }
 
@@ -580,8 +612,8 @@ function getFinalValues(gid) {
     var partnerName = ' ';
     var partnerSnakeLength = 0;
     var mySnakeLength = 0;
-    if(tremola.game_board[gid].operations.flags.contains(snakeOperation.GAME_FINISH)) {
-        var game = tremola.game_board[gid];
+    var game = tremola.game_board[gid];
+    if(tremola.game_board[gid].flags === GAME_FLAG.FINISHED) {
         var name0 = game.player0;
         var name1 = game.player1;
         var score0 = game.snake0.length
@@ -593,6 +625,9 @@ function getFinalValues(gid) {
         mySnakeLength = game.player0 !== tremola.id ? score1 : score0;
     }
 
+    if(tremola.game_board[gid].flags === GAME_FLAG.INTERRUPTED) {
+        winnerName = "interrupted";
+    }
     return {
         winner_name: winnerName,
         partner_name: partnerName,
@@ -611,7 +646,7 @@ function getMyAchievement() {
     var snakeLength = 0;
     for( const [key, value] of Object.entries(tremola.game_board)) {
         var game =value;
-        if(game.operations.contains(GAME_FLAG.FINISHED)) {
+        if(game.flags === GAME_FLAG.FINISHED) {
            gid = game.key;
            size = game.size;//game_board size
            partner = game.player0 === tremola.id? game.player1: game.player0;

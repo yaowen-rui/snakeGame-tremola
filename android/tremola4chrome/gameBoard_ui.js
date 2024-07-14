@@ -222,11 +222,13 @@ function unmatch_curr_partner() {
         const userConfirmed = confirm("Do you really want to unmatch your current partner?")
         if(userConfirmed) {
             var partnerId = board.player0 === tremola.id ? board.player1 : board.player0
-            unmatch_partner(curr_gameBoard, partnerId);//TODO
+            unmatch_partner(curr_gameBoard, partnerId);
             setScenario("game_main");
         } else {
             launch_snackbar("You chose to keep the current partner :)");
         }
+    } else {
+        launch_snackbar("You are unmatched!")
     }
 }
 

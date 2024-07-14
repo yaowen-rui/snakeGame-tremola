@@ -36,7 +36,6 @@ function create_gameBoard(level, gid) {//level:levelOne,levelTwo,levelThree
     var c = document.getElementById('conversationTitle');
     c.style.display = null;
 
-    //TODO: something wrong with create_cells function, the 3 code lines below will not be executed
     if (level === 'levelOne') {//9x9 Grid
         create_cells('levelOne_overlay', 9, gid);
         document.getElementById("statusInfoOne").style.display="block";
@@ -218,10 +217,13 @@ function leave_curr_game() {
 
 function unmatch_curr_partner() {
     closeOverlay();
-    if (tremola.game_board[curr_gameBoard].flags === GAME_FLAG.MATCHED) {
+    var board = tremola.game_board[curr_gameBoard]
+    if (board.flags === GAME_FLAG.MATCHED) {
         const userConfirmed = confirm("Do you really want to unmatch your current partner?")
         if(userConfirmed) {
-            unmatch_partner(curr_gameBoard);//TODO
+            var partnerId = board.player0 === tremola.id ? board.player1 : board.player0
+            unmatch_partner(curr_gameBoard, partnerId);//TODO
+            setScenario("game_main");
         } else {
             launch_snackbar("You chose to keep the current partner :)");
         }

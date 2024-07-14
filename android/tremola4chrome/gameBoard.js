@@ -5,6 +5,8 @@
 var curr_gameBoard;
 var displayedFinish = false;
 var game_interrupted = false;
+var game_began = false;
+var game_unmatched = false;
 
 const GAME_FLAG = {
     UNMATCHED: 'no_partner_yet',
@@ -23,7 +25,8 @@ const snakeOperation = {
     INVITE: 'invite',
     //INVITE_ACCEPT: 'invite/accept',
     //INVITE_DECLINE: 'invite/decline',
-    LEAVE: 'leave'
+    LEAVE: 'leave',
+    UNMATCH : 'unmatch',
 }
 
 // Gets called after a cell gets clicked
@@ -280,7 +283,7 @@ function interrupt_game(gid) {
     snakeSendToBackend(data);
 }
 
-function replay_game(gid) {
+function replay_game(gid) {//TODO: need to be tested
     if(gid != null) {
         var board = tremola.game_board[gid];
         var size = board.size;
@@ -295,9 +298,49 @@ function replay_game(gid) {
         currentGid = gid
         console.log(" replay: created new game with GID: " + gid);
 
-        create_cells(overlayId, size, new_gid)
+        create_gameBoard(size, new_gid)
         inviteUserToGame(new_gid, partnerId);
     }
+}
+function unmatch(gid, pid) {
+    var board = tremola.game_board[gid];
+    board.players.filter(id => id === tremola.id);
+    if (pid === board.player0) {
+        tremola.id === board.player0 ? board.player1 = null : board.player0 = null
+    } else if( pid === board.player1) {
+        tremola.id === board.player1 ? board.player0 = null : board.player1 = null
+    }
+    loadCurrentGameState(gid, board.size)
+}
+
+function unmatch_partner(gid, pid) {//pid:partnerId
+    var board = tremola.game_board[gid];
+    if (game_began === true) {
+        alert("Game began! To late to unmatch with your current player!")
+        return;
+    }
+    if ( board.flags === GAME_FLAG.UNMATCHED) {
+        alert("You are unmatched !")
+        return;
+    }
+    setScenario("game_main");
+    board.flags = GAME_FLAG.UNMATCHED
+    board.players.filter(id => id === tremola.id);
+    if (pid === board.player0) {
+        tremola.id === board.player0 ? board.player1 = null : board.player0 = null
+    } else if( pid === board.player1) {
+        tremola.id === board.player1 ? board.player0 = null : board.player1 = null
+    }
+
+    var data = {
+        'gid' : gid,
+        'op' : snakeOperation.UNMATCH,
+        'args' : gid + "//" + pid,
+        'prev' : board.currPrev
+    }
+    snakeSendToBackend(data);
+    loadCurrentGameState(gid, board.size)
+    console.log("unmatch the current player")
 }
 
 // Creates a new entry in the log to change the color of the snake
@@ -510,6 +553,7 @@ function applyOperation(gid, operationID){
             addCellToSnake(pos, gid);
             board.turns[board.turnNumber + 1] = pos;
             board.turnNumber++;
+            game_began = true;
             break;
         case snakeOperation.GAME_FINISH:
             if(!displayedFinish){
@@ -529,12 +573,19 @@ function applyOperation(gid, operationID){
             break;
         case snakeOperation.LEAVE:
             if(!game_interrupted) {
-                alert("The game is interrupted, you left this game midway!")
+                alert("The game is interrupted, one player left this game midway!")
                 gameOver_show_result(gid);
                 setScenario("game_lobby");
                 delete tremola.game_board[gid];
             }
             game_interrupted = true;
+            break;
+        case snakeOperation.UNMATCH:
+            if(tremola.game_board[gid].flags === GAME_FLAG.UNMATCHED) {
+                launch_snackbar("Partner unmatched, invite a partner!")
+                unmatch(gid, currOp.body.cmd[1]);
+            }
+
             break;
     }
 

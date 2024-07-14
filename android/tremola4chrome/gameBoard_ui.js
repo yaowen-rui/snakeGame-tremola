@@ -362,7 +362,17 @@ function showDeleteContextMenu(e, img) {
         img.remove();
         contextMenu.style.display = 'none';
     }
+    document.getElementById('download-option').onclick = function() {
+        console.log('you clicked on download')
+        var a = document.createElement('a');
+        a.href = img.src;
+        a.download = 'downloaded_image.jpg'; // You can set the desired filename here
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
 
+        contextMenu.style.display = 'none';
+    }
     window.onclick = function() {
         contextMenu.style.display = 'none';
     }

@@ -81,25 +81,25 @@ var scenarioMenu = {
         ['Debug', 'ui_debug']],
 
     'game_lobby': [['Achievement', 'show_my_achievement'],
-        ['Game history', 'show_game_history'],
-        ['Game manual', 'show_game_manual'],
+        ['Game History', 'show_game_history'],
+        ['Game Manual', 'show_game_manual'],
         ['Screenshots', 'show_all_screenshots']],
 
     'game_board': [['Invite Partner', 'invite_partner_menu'],
         ['Unmatch', 'unmatch_curr_partner'],
         ['Leave', 'leave_curr_game'],
         ['Play Again', 'play_again_with_curr_partner'],
-        ['Take screenshot', 'take_screenshot'],
-        ['change color', 'changeColorMenu']], 
+        ['Take Screenshot', 'take_screenshot'],
+        ['Change Color', 'changeColorMenu']],
 
     'game_main': [['Achievement', 'show_my_achievement'],
-        ['Game history', 'show_game_history'],
-        ['Game manual', 'show_game_manual'],
+        ['Game History', 'show_game_history'],
+        ['Game Manual', 'show_game_manual'],
         ['Screenshots', 'show_all_screenshots']],
 
     'game_list': [['Achievement', 'show_my_achievement'],
-        ['Game history', 'show_game_history'],
-        ['Game manual', 'show_game_manual'],
+        ['Game History', 'show_game_history'],
+        ['Game Manual', 'show_game_manual'],
         ['Screenshots', 'show_all_screenshots']]
 }
 

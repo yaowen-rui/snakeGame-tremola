@@ -313,18 +313,25 @@ function unmatch(gid, pid) {
     var board = tremola.game_board[gid];
     board.flags = GAME_FLAG.UNMATCHED
 
+    board.players = board.players.filter(id => id !== pid);
+    board.player1=null
+    console.log("before unmatch: "+ board.player1+", "+board.player0)
+    console.log("after unmatch: "+ board.player1+", "+board.player0)
+
     if( pid === tremola.id) {
-        console.log("before unmatch: "+ board.player1+", "+board.player0)
-        // Filter the players array to keep only the one that matches tremola.id
-        board.players = board.players.filter(id => id === tremola.id);
-        // Set the appropriate player to null
-        pid === board.player0? board.player1=null : board.player0=null
-        console.log("after unmatch: "+ board.player1+", "+board.player0)
-    } else {
-        console.log("before unmatch: "+ board.player1+", "+board.player0)
-        board.players = board.players.filter(id => id === tremola.id);
-        pid === board.player0? board.player0=null : board.player0=null
-        console.log("after unmatch: "+ board.player1+", "+board.player0)
+        setScenario("game_main");
+    }
+    else{
+        var size = board.size;
+        var id = "";
+    
+        switch (size){
+            case '9': id = "One"; break;
+            case '11': id = "Two"; break;
+            case '14': id = "Three"; break;
+        }
+        document.getElementById("partnerNameLevel" + id).textContent = "Nobody";
+        document.getElementById("partnerColorLevel" + id).textContent = "None";
     }
 }
 

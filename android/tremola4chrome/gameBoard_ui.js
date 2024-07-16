@@ -81,6 +81,10 @@ function create_cells(id, size, gid) {
     document.getElementById("partnerColorLevelTwo").textContent = "None";
     document.getElementById("partnerColorLevelThree").textContent = "None";
 
+    document.getElementById("statusInfo_levelOne").textContent = 0
+    document.getElementById("statusInfo_levelTwo").textContent = 0
+    document.getElementById("statusInfo_levelThree").textContent = 0
+
     const container = document.getElementById('cellContainer'+containerNum);
 
     container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;

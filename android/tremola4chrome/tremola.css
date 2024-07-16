@@ -322,13 +322,13 @@ background-color: #bb176c;
   outline: none;
   border: none;
   background: transparent;
-  cursor: pointer;
+  cursor: default;
 }
 .forward-turn{
   outline: none;
   border: none;
   background: transparent;
-  cursor: pointer;
+  cursor: default;
 }
 .status-info{
   font-family: "American Typewriter";

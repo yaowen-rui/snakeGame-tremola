@@ -295,18 +295,16 @@ function replay_game(gid) {//TODO: need to be tested
         var board = tremola.game_board[gid];
         var size = board.size;
         var partnerId = board.player0 === tremola.id ? board.player1 : board.player0
-        var overlayId = '';
-        var new_gid;
-        overlayId = (size === 9) ? "levelOne_overlay" :
-            (size === 11) ? "levelTwo_overlay" :
-                "levelThree_overlay";
+        var id = "";
+        switch (size){
+            case '9': id = "levelOne"; break;
+            case '11': id = "levelTwo"; break;
+            case '14': id = "levelThree"; break;
+        }
+        var new_gid = Math.floor(1000000*Math.random());
+        create_gameBoard(id, new_gid)
+        addPartner(new_gid, partnerId);
 
-        new_gid =  Math.floor(1000000*Math.random());
-        currentGid = gid
-        console.log(" replay: created new game with GID: " + gid);
-
-        create_gameBoard(size, new_gid)
-        inviteUserToGame(new_gid, partnerId);
     }
 }
 function unmatch(gid, pid) {

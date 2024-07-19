@@ -256,7 +256,9 @@ function invite_partner_menu() {
 
 	document.getElementById("gameBoard_menu_invite_content").innerHTML = ''
 	for (var c in tremola.contacts) {
-        partner_invite_create_entry(c)
+        if(c !== tremola.id){
+            partner_invite_create_entry(c)
+        }
     }
 }
 
@@ -420,7 +422,22 @@ function loadSnakeGames(){
     
     for(const [key, value] of Object.entries(tremola.game_board)){
         //console.log(value)
-        if(value.players.includes(ownId)){
+        if(value.players.includes(ownId) && value.flags !== GAME_FLAG.FINISHED){
+            displayGame(value);
+        }
+    }
+}
+
+// Loads all snake games that the current user is in
+function loadCompletedSnakeGames(){
+    document.getElementById('lst:game_list').innerHTML = '';
+    setScenario('game_list');
+    var ownId = tremola.id;
+    //console.log(tremola.contacts[myId].alias)
+    
+    for(const [key, value] of Object.entries(tremola.game_board)){
+        //console.log(value)
+        if(value.players.includes(ownId) && value.flags === GAME_FLAG.FINISHED){
             displayGame(value);
         }
     }

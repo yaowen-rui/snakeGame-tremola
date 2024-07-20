@@ -245,8 +245,13 @@ function play_again_with_curr_partner() {
 
 function invite_partner( pid, gid) { //pid: partner's id
     closeOverlay()
-    inviteUserToGame( gid, pid)
-    launch_snackbar("Invited " + tremola.contacts[pid].alias)
+    if(tremola.game_board[gid].flags === GAME_FLAG.MATCHED){
+        launch_snackbar("Already matched with a partner")
+    }
+    else{
+        inviteUserToGame( gid, pid)
+        launch_snackbar("Invited " + tremola.contacts[pid].alias)
+    }
 }
 
 function invite_partner_menu() {

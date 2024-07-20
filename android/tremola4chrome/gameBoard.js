@@ -209,6 +209,9 @@ function snakeNewEvent(e){
 
     if (op === snakeOperation.INVITE){
         addPartner(gid, args[0])
+        if(args[0] == tremola.id){
+            launch_snackbar("Invited to game with"+ tremola.contacts[tremola.game_board[gid].player0].alias)
+        }  
     }
 
     if (op === snakeOperation.CHANGE_COLOR){
@@ -303,7 +306,7 @@ function replay_game(gid) {//TODO: need to be tested
         }
         var new_gid = Math.floor(1000000*Math.random());
         create_gameBoard(id, new_gid)
-        addPartner(new_gid, partnerId);
+        inviteUserToGame(new_gid, partnerId);
 
     }
 }

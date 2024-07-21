@@ -227,11 +227,9 @@ function join_game(gid, pid, size){
         case '14': id = "levelThree"; break;
     }
 
-    const userConfirmed = confirm("Do you want to play a snake game with " + tremola.contacts[pid].alias + "?")
+    const userConfirmed = confirm("You have been invited to a snake game with " + tremola.contacts[pid].alias + ". Go there?")
     if (userConfirmed) {
         create_gameBoard(id, gid);
-    } else {
-        unmatch_partner(gid, tremola.id)
     }
 }
 

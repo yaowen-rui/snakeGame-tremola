@@ -745,6 +745,7 @@ function getMyAchievement() {
     data.forEach((game, index) => {
         game.rankNum = index + 1;
     });
+    return data;
 }
 
 function getGameHistory() {

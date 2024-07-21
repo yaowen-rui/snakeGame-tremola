@@ -606,6 +606,7 @@ function applyOperation(gid, operationID){
 // Loads the previous game state of the given GID if the game already exists
 function loadCurrentGameState(gid, size){
     // Reset variables so everything is back to zero before loading the game
+    displayedFinish = false;
     var board = tremola.game_board[gid];
     curr_gameBoard = gid
     if(!(board == undefined)){

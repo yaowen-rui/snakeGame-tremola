@@ -171,8 +171,8 @@ function snakeNewEvent(e){
     // Add new entry if new board
     if(!(gid in tremola.game_board)) {
         tremola.game_board[gid] = { // TODO: extend and only keep necessary fields
-            "key": gid.toString(),
-            "size": args[0],
+            "key": gid.toString(), // GID
+            "size": args[0], // Board size
             "operations": {}, // all received operations for this board
             "sortedOperations": new Timeline(), // sorted list of operations
             "players": [e.header.fid], // all players
@@ -180,7 +180,7 @@ function snakeNewEvent(e){
             "currentPlayer": 0, // Current player
             "player0": args[1], // Player 0 ID
             "player1": null, // Player 1 ID
-            "colorSnake0": "DeepSkyBlue", // Colors for now predefined, chosen randomly, will change for sure
+            "colorSnake0": "DeepSkyBlue", // Colors, initial color is predefined but can be changed directly in-game
             "colorHead0": "DarkBlue",
             "colorSnake1": null,
             "colorHead1": null,
@@ -191,9 +191,9 @@ function snakeNewEvent(e){
             "snake1": [], // Player 0 snake
             "snakeHead1": -1, // Player 0 snake head
             "flags": GAME_FLAG.UNMATCHED,
-            "winner": "",
+            "winner": "", // Who won the game
             "turns": {}, // Saves turns done during this game
-            "turnNumber": 0
+            "turnNumber": 0 // How many turns have been played already
         };
     }
 

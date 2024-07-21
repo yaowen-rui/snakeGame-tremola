@@ -219,6 +219,22 @@ function leave_curr_game() {
     }
 }
 
+function join_game(gid, pid, size){
+    var id = "";
+    switch (size){
+        case '9': id = "levelOne"; break;
+        case '11': id = "levelTwo"; break;
+        case '14': id = "levelThree"; break;
+    }
+
+    const userConfirmed = confirm("Do you want to play a snake game with " + tremola.contacts[pid].alias + "?")
+    if (userConfirmed) {
+        create_gameBoard(id, gid);
+    } else {
+        unmatch_partner(gid, tremola.id)
+    }
+}
+
 function unmatch_curr_partner() {
     closeOverlay();
     var board = tremola.game_board[curr_gameBoard]

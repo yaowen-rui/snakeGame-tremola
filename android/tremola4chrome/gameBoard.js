@@ -210,7 +210,7 @@ function snakeNewEvent(e){
     if (op === snakeOperation.INVITE){
         addPartner(gid, args[0])
         if(args[0] == tremola.id){
-            launch_snackbar("Invited to game with"+ tremola.contacts[tremola.game_board[gid].player0].alias)
+            join_game(gid, tremola.game_board[gid].player0, tremola.game_board[gid].size)
         }  
     }
 
@@ -304,11 +304,14 @@ function replay_game(gid) {//TODO: need to be tested
             case '11': id = "levelTwo"; break;
             case '14': id = "levelThree"; break;
         }
-        var new_gid = Math.floor(1000000*Math.random());
-        create_gameBoard(id, new_gid)
-        inviteUserToGame(new_gid, partnerId);
+        create_game_with(id, null, partnerId)
 
     }
+}
+
+async function create_game_with(id, gid, partnerId){
+    create_gameBoard(id, gid)
+    inviteUserToGame(curr_gameBoard, partnerId)
 }
 function unmatch(gid, pid) {
     var board = tremola.game_board[gid];
@@ -673,12 +676,11 @@ function linearTimeline(timeline) {
 
 
 function inviteUserToGame(gid, userID) {//userID:partner's ID TODO
-    var board = tremola.game_board[gid]
     var data = {
         'gid' : gid,
         'op' : snakeOperation.INVITE,
         'args' : userID,
-        'prev' : board.currPrev
+        'prev' : null
     };
     snakeSendToBackend(data);
 }

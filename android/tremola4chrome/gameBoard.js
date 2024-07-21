@@ -536,7 +536,7 @@ function addCellToSnake(pos, gid){
         case '14': id = "Three"; break;
     }
     document.getElementById("statusInfo_level" + id).textContent = board.turnNumber;
-    updateTurnArrows(board.turnNumber, board.turnNumber);
+    updateTurnArrows(board.turnNumber, board.turnNumber, id);
 
 }
 function addPartner(gid, pid){
@@ -637,13 +637,20 @@ function loadCurrentGameState(gid, size){
             document.getElementById("partnerColorLevel" + id).textContent = "None";
         }
         document.getElementById("statusInfo_level" + id).textContent = board.turnNumber;
-        updateTurnArrows(board.turnNumber, board.turnNumber);
+        updateTurnArrows(board.turnNumber, board.turnNumber, id);
     }
     // Create new game if game with given GID does not exist
     else {
         console.log("GID not found, creating new game...");
         createGame(gid, size);
-        updateTurnArrows(0, 0);
+        var id = "";
+        size = "" + size
+        switch (size){
+            case '9': id = "One"; break;
+            case '11': id = "Two"; break;
+            case '14': id = "Three"; break;
+        }
+        updateTurnArrows(0, 0, id);
     }
 }
 
@@ -793,7 +800,7 @@ function goBackTurn(){
     }
     document.getElementById("statusInfo_level" + id).textContent = currentTurn - 1;
     displayToTurn(curr_gameBoard, currentTurn - 1);
-    updateTurnArrows(board.turnNumber, currentTurn - 1);
+    updateTurnArrows(board.turnNumber, currentTurn - 1, id);
 }
 
 // Displays the game one turn after
@@ -813,7 +820,7 @@ function goForwardTurn(){
     }
     document.getElementById("statusInfo_level" + id).textContent = currentTurn + 1;
     displayToTurn(curr_gameBoard, currentTurn + 1);
-    updateTurnArrows(board.turnNumber, currentTurn + 1);
+    updateTurnArrows(board.turnNumber, currentTurn + 1, id);
 }
 
 // Display the game up to the specified turn
@@ -844,29 +851,30 @@ function displayToTurn(gid, turnNumber){
 }
 
 // Changes the style of the back and forward arrows
-function updateTurnArrows(currentTurn, displayedTurn){
+function updateTurnArrows(currentTurn, displayedTurn, id){
+    console.log(id)
     if(currentTurn == 0){
-        document.getElementById("forwardTurnButton").style.cursor = "default";
-        document.getElementById("forwardTurnButton").disabled = true;
-        document.getElementById("backTurnButton").style.cursor = "default";
-        document.getElementById("backTurnButton").disabled = true;
+        document.getElementById("forwardTurnButton" + id).style.cursor = "default";
+        document.getElementById("forwardTurnButton" + id).disabled = true;
+        document.getElementById("backTurnButton" + id).style.cursor = "default";
+        document.getElementById("backTurnButton" + id).disabled = true;
     }
     else if(currentTurn == displayedTurn){
-        document.getElementById("forwardTurnButton").style.cursor = "default";
-        document.getElementById("forwardTurnButton").disabled = true;
-        document.getElementById("backTurnButton").style.cursor = "pointer";
-        document.getElementById("backTurnButton").disabled = false;
+        document.getElementById("forwardTurnButton" + id).style.cursor = "default";
+        document.getElementById("forwardTurnButton" + id).disabled = true;
+        document.getElementById("backTurnButton" + id).style.cursor = "pointer";
+        document.getElementById("backTurnButton" + id).disabled = false;
     }
     else if(displayedTurn == 0){
-        document.getElementById("forwardTurnButton").style.cursor = "pointer";
-        document.getElementById("forwardTurnButton").disabled = false;
-        document.getElementById("backTurnButton").style.cursor = "default";
-        document.getElementById("backTurnButton").disabled = true;
+        document.getElementById("forwardTurnButton" + id).style.cursor = "pointer";
+        document.getElementById("forwardTurnButton" + id).disabled = false;
+        document.getElementById("backTurnButton" + id).style.cursor = "default";
+        document.getElementById("backTurnButton" + id).disabled = true;
     }
     else {
-        document.getElementById("forwardTurnButton").style.cursor = "pointer";
-        document.getElementById("forwardTurnButton").disabled = false;
-        document.getElementById("backTurnButton").style.cursor = "pointer";
-        document.getElementById("backTurnButton").disabled = false;
+        document.getElementById("forwardTurnButton" + id).style.cursor = "pointer";
+        document.getElementById("forwardTurnButton" + id).disabled = false;
+        document.getElementById("backTurnButton" + id).style.cursor = "pointer";
+        document.getElementById("backTurnButton" + id).disabled = false;
     }
 }

@@ -253,15 +253,13 @@ function virtualBackend(event) {
     }
     if (cmd[0] == 'snake') {
         console.log('snake', cmd[1], cmd[4])
-        // var operation = JSON.parse(atob(cmd[1]));
-        // console.log(operation);
-        // cmd.splice(0,2)
         cmd[0] = 'SNK';
-        var prev = cmd[2] //== "null" ? null : cmdStr[2]
+        var prev = cmd[2]
         if (prev != "null") {
             prev = atob(cmd[2])
             cmd[2] = prev.split(",").map(atob)
         }
+        cmd[4] = atob(cmd[4])
         myseqno += 1;
         var e = { 'header': {
 	            'tst': Date.now(),

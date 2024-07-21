@@ -156,7 +156,7 @@ function snakeSendToBackend(data){
     var gid = data['gid'] != null ? data['gid'] : "null";
     var prevs = data['prev'] != null ? btoa(data['prev'].map(btoa)) : "null";
     var op = data['op'];
-    var args = data['args'];
+    var args = btoa(data['args']);
     var to_backend = ['snake', gid, prevs, op, args];
     backend(to_backend.join(" "));
 }
